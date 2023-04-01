@@ -3,6 +3,7 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 const dotenv = require('dotenv');
 const { fetchAllTopRankers, createLeaderBoardMessage, createPlayerStatsMessage} = require('./model/fetchAPI');
 const { skills } = require('./constants/skills');
+const { createCommandsMessage } = require("./model/info");
 dotenv.config();
 
 client.on('ready', () => {
@@ -31,6 +32,7 @@ client.on('ready', () => {
 });
 
 client.on('interactionCreate', async interaction => {
+
   if (!interaction.isChatInputCommand()) return;
   const { commandName } = interaction;
   if (commandName === 'leaderboard') {
@@ -38,6 +40,8 @@ client.on('interactionCreate', async interaction => {
   } else if (commandName === 'player') {
     const playerName = interaction.options.get("name")?.value;
     await interaction.reply(await createPlayerStatsMessage(playerName));
+  } else if (commandName === 'list-commands') {
+    await interaction.reply(await createCommandsMessage());
   } else {
     await interaction.reply('This command is not recognised, sorry about that');
   }

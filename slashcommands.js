@@ -22,6 +22,9 @@ const commands = [
       .setDescription('Will retrieve the player that best matches the name you provide.')
       .setRequired(true)
     ),
+  new SlashCommandBuilder()
+    .setName('list-commands')
+    .setDescription('View a list of all available commands'),
 ].map(command => command.toJSON());
 
 const rest = new REST({version: '10'}).setToken(process.env.DISCORD_BOT_TOKEN);

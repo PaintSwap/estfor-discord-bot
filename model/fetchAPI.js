@@ -61,4 +61,4 @@ async function createLeaderBoardMessage(skill) {
   return message;
 }
 
-module.exports = { fetchAPI, fetchAllTopRankers, createPlayerStatsMessage, createLeaderBoardMessage };
+module.exports = { fetchAllTopRankers, createPlayerStatsMessage, createLeaderBoardMessage };

@@ -10,7 +10,6 @@ const skills = [
   { name: 'Thieving', value: 'thieving' },
   { name: 'Melee', value: 'melee' },
   { name: 'Magic', value: 'magic' },
-  { name: 'Range', value: 'range' },
   { name: 'Defence', value: 'defence' },
   { name: 'Health', value: 'health' }
 ]
