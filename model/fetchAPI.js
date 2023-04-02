@@ -33,7 +33,6 @@ async function createPlayerStatsMessage(player_name) {
     message += `**Thieving** Rank: ${player.thievingRank} - Lvl: ${await xpToLevel(player.thievingXP)}\n`;
     message += `**Melee** Rank: ${player.meleeRank} - Lvl: ${await xpToLevel(player.meleeXP)}\n`;
     message += `**Magic** Rank: ${player.magicRank} - Lvl: ${await xpToLevel(player.magicXP)}\n`;
-    message += `**Range** Rank: ${player.rangeRank} - Lvl: ${await xpToLevel(player.rangeXP)}\n`;
     message += `**Defence** Rank: ${player.defenceRank} - Lvl: ${await xpToLevel(player.defenceXP)}\n`;
     message += `**Health** Rank: ${player.healthRank} - Lvl: ${await xpToLevel(player.healthXP)}\n`;
     return message;
