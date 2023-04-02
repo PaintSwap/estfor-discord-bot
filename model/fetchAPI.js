@@ -23,7 +23,7 @@ async function createPlayerStatsMessage(player_name) {
     const player = playerData.players[0];
     let message = `**${player.name}**\n\n`;
     message += `Rank: ${player.combinedRank} - TotalXP: ${player.totalXP}\n`;
-    message += `**Woodcutting** Rank: ${player.woodcuttingRank} - Lvl: ${await xpToLevel(player.totalXP)}\n`;
+    message += `**Woodcutting** Rank: ${player.woodcuttingRank} - Lvl: ${await xpToLevel(player.woodcuttingXP)}\n`;
     message += `**Firemaking** Rank: ${player.firemakingRank} - Lvl: ${await xpToLevel(player.firemakingXP)}\n`;
     message += `**Fishing** Rank: ${player.fishingRank} - Lvl: ${await xpToLevel(player.fishingXP)}\n`;
     message += `**Cooking** Rank: ${player.cookingRank} - Lvl: ${await xpToLevel(player.cookingXP)}\n`;
