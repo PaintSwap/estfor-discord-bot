@@ -96,9 +96,8 @@ async function getGlobalStatsEmbed() {
     {name: 'Total Players', value: globalPlayerStats.globalPlayerStats.totalPlayers},
     {name: 'Total Users', value: globalUserStats.globalUserStats.totalUsers},
     {name: 'Brush Burned', value: `${(Number(globalUserStats.globalUserStats.totalBrushBurned)/ (10 ** 18)).toLocaleString(undefined, { maximumFractionDigits: 0 })}`},
-    // The brush buy and sales are a little broken in alpha version. Can re-enable when going live
-    // {name: 'Brush Purchases', value: `${(Number(globalUserStats.globalUserStats.totalBought)/ (10 ** 18)).toLocaleString(undefined, { maximumFractionDigits: 0 })}`},
-    // {name: 'Brush Sold', value: `${(Number(globalUserStats.globalUserStats.totalSold)/ (10 ** 18)).toLocaleString(undefined, { maximumFractionDigits: 0 })}`},
+    {name: 'Brush In', value: `${(Number(globalUserStats.globalUserStats.totalBought)/ (10 ** 18)).toLocaleString(undefined, { maximumFractionDigits: 0 })}`},
+    {name: 'Brush Out', value: `${(Number(globalUserStats.globalUserStats.totalSold)/ (10 ** 18)).toLocaleString(undefined, { maximumFractionDigits: 0 })}`},
   ]);
 }
 
