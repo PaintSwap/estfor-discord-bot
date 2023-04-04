@@ -23,6 +23,9 @@ const commands = [
       .setRequired(true)
     ),
   new SlashCommandBuilder()
+    .setName('global-stats')
+    .setDescription('View global stats'),
+  new SlashCommandBuilder()
     .setName('list-commands')
     .setDescription('View a list of all available commands'),
 ].map(command => command.toJSON());

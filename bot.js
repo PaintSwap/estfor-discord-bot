@@ -1,7 +1,7 @@
 const { Client, GatewayIntentBits, ActivityType } = require('discord.js');
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 const dotenv = require('dotenv');
-const { fetchAllTopRankers, createLeaderBoardMessage, createPlayerStatsMessage} = require('./model/fetchAPI');
+const { fetchAllTopRankers, getLeaderboardEmbed, getPlayerEmbed, getGlobalStatsEmbed, getActivityEmbed } = require('./model/fetchAPI');
 const { skills } = require('./constants/skills');
 const { createCommandsMessage } = require("./model/info");
 dotenv.config();
@@ -36,10 +36,14 @@ client.on('interactionCreate', async interaction => {
   if (!interaction.isChatInputCommand()) return;
   const { commandName } = interaction;
   if (commandName === 'leaderboard') {
-    await interaction.reply(await createLeaderBoardMessage(interaction.options.get("skill")?.value));
+    const embed = await getLeaderboardEmbed(interaction.options.get("skill")?.value);
+    await interaction.reply({ embeds: [embed] });
   } else if (commandName === 'player') {
-    const playerName = interaction.options.get("name")?.value;
-    await interaction.reply(await createPlayerStatsMessage(playerName));
+    const embed = await getPlayerEmbed(interaction.options.get("name")?.value);
+    await interaction.reply({ embeds: [embed] });
+  } else if (commandName === 'global-stats') {
+    const embed = await getGlobalStatsEmbed();
+    await interaction.reply({ embeds: [embed] });
   } else if (commandName === 'list-commands') {
     await interaction.reply(await createCommandsMessage());
   } else {
