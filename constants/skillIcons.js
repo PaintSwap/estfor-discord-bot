@@ -17,11 +17,11 @@ const skillIcons = {
 const emojiIcons = {
   'crafting': ':hammer_pick:',
   'fishing': ':fish:',
-  'cooking': ':cook:',
+  'cooking': ':fondue:',
   'defence': ':shield:',
   'firemaking': ':fire:',
   'health' : ':heart:',
-  'magic' : ':magic_wand:',
+  'magic' : ':man_mage:',
   'melee' : ':crossed_swords:',
   'mining' : ':pick:',
   'smithing': ':hammer:',
