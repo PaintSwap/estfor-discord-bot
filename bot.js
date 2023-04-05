@@ -32,7 +32,6 @@ client.on('ready', () => {
 });
 
 client.on('interactionCreate', async interaction => {
-
   if (!interaction.isChatInputCommand()) return;
   const { commandName } = interaction;
   if (commandName === 'leaderboard') {

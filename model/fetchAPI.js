@@ -30,9 +30,13 @@ async function awardEmoji(rank) {
 }
 
 async function getPlayerEmbed(player_name) {
-  const playerData = await fetchAPI(`players?name=${player_name}&orderBy=lastTimestamp&orderDirection=desc&numToFetch=1`);
+  let playerData = await fetchAPI(`players?exactName=${player_name}&orderBy=lastTimestamp&orderDirection=desc&numToFetch=1`);
+  if (playerData.players.length === 0) {
+    playerData = await fetchAPI(`players?name=${player_name}&orderBy=lastTimestamp&orderDirection=desc&numToFetch=1`);
+  }
   if (playerData.players.length === 0) return new EmbedBuilder().setTitle('Player not found, try shorten the name you provide.');
   const player = playerData.players[0];
+
   return new EmbedBuilder()
   .setColor(0x0099FF)
   .setTitle(`${player.name} ${await awardEmoji(player.combinedRank)}`)
@@ -41,19 +45,19 @@ async function getPlayerEmbed(player_name) {
   .setDescription(`TotalXP: ${player.totalXP} - Overall Lvl: ${await xpToLevel(player.totalXP)}`)
   .setThumbnail(avatarImageLinks[player.avatarId])
   .addFields([
-    {name: `${emojiIcons.melee} Melee`, value: `Lvl: ${await xpToLevel(player.meleeXP)}\nRank: ${player.meleeRank} ${await awardEmoji(player.meleeRank)}`, inline: true},
-    {name: `${emojiIcons.magic} Magic`, value: `Lvl: ${await xpToLevel(player.magicXP)}\nRank: ${player.magicRank} ${await awardEmoji(player.magicRank)}`, inline: true},
-    {name: `${emojiIcons.defence} Defence`, value: `Lvl: ${await xpToLevel(player.defenceXP)}\nRank: ${player.defenceRank} ${await awardEmoji(player.defenceRank)}`, inline: true},
-    {name: `${emojiIcons.health} Health`, value: `Lvl: ${await xpToLevel(player.healthXP)}\nRank: ${player.healthRank} ${await awardEmoji(player.healthRank)}`, inline: true},
-    {name: `${emojiIcons.woodcutting} Woodcutting`, value: `Lvl: ${await xpToLevel(player.woodcuttingXP)}\nRank: ${player.woodcuttingRank} ${await awardEmoji(player.woodcuttingRank)}`, inline: true},
-    {name: `${emojiIcons.firemaking} Firemaking`, value: `Lvl: ${await xpToLevel(player.firemakingXP)}\nRank: ${player.firemakingRank} ${await awardEmoji(player.firemakingRank)}`, inline: true},
-    {name: `${emojiIcons.fishing} Fishing`, value: `Lvl: ${await xpToLevel(player.fishingXP)}\nRank: ${player.fishingRank} ${await awardEmoji(player.fishingRank)}`, inline: true},
-    {name: `${emojiIcons.cooking} Cooking`, value: `Lvl: ${await xpToLevel(player.cookingXP)}\nRank: ${player.cookingRank} ${await awardEmoji(player.cookingRank)}`, inline: true},
-    {name: `${emojiIcons.mining} Mining`, value: `Lvl: ${await xpToLevel(player.miningXP)}\nRank: ${player.miningRank} ${await awardEmoji(player.miningRank)}`, inline: true},
-    {name: `${emojiIcons.smithing} Smithing`, value: `Lvl: ${await xpToLevel(player.smithingXP)}\nRank: ${player.smithingRank} ${await awardEmoji(player.smithingRank)}`, inline: true},
-    {name: `${emojiIcons.crafting} Crafting`, value: `Lvl: ${await xpToLevel(player.craftingXP)}\nRank: ${player.craftingRank} ${await awardEmoji(player.craftingRank)}`, inline: true},
-    {name: `${emojiIcons.thieving} Thieving`, value: `Lvl: ${await xpToLevel(player.thievingXP)}\nRank: ${player.thievingRank} ${await awardEmoji(player.thievingRank)}`, inline: true}
-  ])
+      {name: `${emojiIcons.melee} Melee`, value: `Lvl: ${await xpToLevel(player.meleeXP)} - Rank: ${player.meleeRank} ${await awardEmoji(player.meleeRank)}`, inline: true},
+      {name: `${emojiIcons.magic} Magic`, value: `Lvl: ${await xpToLevel(player.magicXP)} - Rank: ${player.magicRank} ${await awardEmoji(player.magicRank)}`, inline: true},
+      {name: `${emojiIcons.defence} Defence`, value: `Lvl: ${await xpToLevel(player.defenceXP)} - Rank: ${player.defenceRank} ${await awardEmoji(player.defenceRank)}`, inline: true},
+      {name: `${emojiIcons.health} Health`, value: `Lvl: ${await xpToLevel(player.healthXP)} - Rank: ${player.healthRank} ${await awardEmoji(player.healthRank)}`, inline: true},
+      {name: `${emojiIcons.woodcutting} Woodcutting`, value: `Lvl: ${await xpToLevel(player.woodcuttingXP)} - Rank: ${player.woodcuttingRank} ${await awardEmoji(player.woodcuttingRank)}`, inline: true},
+      {name: `${emojiIcons.firemaking} Firemaking`, value: `Lvl: ${await xpToLevel(player.firemakingXP)} - Rank: ${player.firemakingRank} ${await awardEmoji(player.firemakingRank)}`, inline: true},
+      {name: `${emojiIcons.fishing} Fishing`, value: `Lvl: ${await xpToLevel(player.fishingXP)} - Rank: ${player.fishingRank} ${await awardEmoji(player.fishingRank)}`, inline: true},
+      {name: `${emojiIcons.cooking} Cooking`, value: `Lvl: ${await xpToLevel(player.cookingXP)} - Rank: ${player.cookingRank} ${await awardEmoji(player.cookingRank)}`, inline: true},
+      {name: `${emojiIcons.mining} Mining`, value: `Lvl: ${await xpToLevel(player.miningXP)} - Rank: ${player.miningRank} ${await awardEmoji(player.miningRank)}`, inline: true},
+      {name: `${emojiIcons.smithing} Smithing`, value: `Lvl: ${await xpToLevel(player.smithingXP)} - Rank: ${player.smithingRank} ${await awardEmoji(player.smithingRank)}`, inline: true},
+      {name: `${emojiIcons.crafting} Crafting`, value: `Lvl: ${await xpToLevel(player.craftingXP)} - Rank: ${player.craftingRank} ${await awardEmoji(player.craftingRank)}`, inline: true},
+      {name: `${emojiIcons.thieving} Thieving`, value: `Lvl: ${await xpToLevel(player.thievingXP)} - Rank: ${player.thievingRank} ${await awardEmoji(player.thievingRank)}`, inline: true}
+    ])
 }
 
 async function getLeaderboardEmbed(skill) {
@@ -96,8 +100,8 @@ async function getGlobalStatsEmbed() {
     {name: 'Total Players', value: globalPlayerStats.globalPlayerStats.totalPlayers},
     {name: 'Total Users', value: globalUserStats.globalUserStats.totalUsers},
     {name: 'Brush Burned', value: `${(Number(globalUserStats.globalUserStats.totalBrushBurned)/ (10 ** 18)).toLocaleString(undefined, { maximumFractionDigits: 0 })}`},
-    {name: 'Brush In', value: `${(Number(globalUserStats.globalUserStats.totalBought)/ (10 ** 18)).toLocaleString(undefined, { maximumFractionDigits: 0 })}`},
-    {name: 'Brush Out', value: `${(Number(globalUserStats.globalUserStats.totalSold)/ (10 ** 18)).toLocaleString(undefined, { maximumFractionDigits: 0 })}`},
+    {name: 'Spent in shop', value: `${(Number(globalUserStats.globalUserStats.totalBought)/ (10 ** 18)).toLocaleString(undefined, { maximumFractionDigits: 0 })}`},
+    {name: 'Sold to shop', value: `${(Number(globalUserStats.globalUserStats.totalSold)/ (10 ** 18)).toLocaleString(undefined, { maximumFractionDigits: 0 })}`},
   ]);
 }
 
