@@ -7,4 +7,4 @@ async function createCommandsMessage() {
   return message;
 }
 
-module.exports = { createCommandsMessage };
+export { createCommandsMessage };

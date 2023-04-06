@@ -1,6 +1,6 @@
-const { EstforConstants } = require('@paintswap/estfor-definitions');
+import { EstforConstants } from '@paintswap/estfor-definitions';
 
-async function xpToLevel(xp) {
+async function xpToLevel(xp: number) {
   const interval = EstforConstants.levelXp
   let level = 1
   for (let i = 0; i < interval.length; i++) {
@@ -11,4 +11,4 @@ async function xpToLevel(xp) {
   return level
 }
 
-module.exports = { xpToLevel };
+export { xpToLevel };
