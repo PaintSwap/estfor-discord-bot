@@ -1,9 +1,10 @@
-import dotenv from 'dotenv/config'
+import dotenv from 'dotenv'
 import { Client, GatewayIntentBits, ActivityType, Interaction } from 'discord.js';
 
 import { fetchAllTopRankers, getLeaderboardEmbed, getPlayerEmbed, getGlobalStatsEmbed } from './model/fetchAPI';
 import { skillTypes, skills } from './constants/skills';
 import { createCommandsMessage } from './model/info';
+dotenv.config();
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
