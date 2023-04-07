@@ -9,4 +9,4 @@ const avatarImageLinks = {
   '8' : 'https://cdn.discordapp.com/attachments/1062650591827984415/1091327523889086524/8.png',
 }
 
-module.exports = { avatarImageLinks }
+export { avatarImageLinks }

@@ -1,4 +1,8 @@
-const skillIcons = {
+import type { skillTypes } from "./skills";
+
+const skillIcons: {
+  [key in skillTypes]: string;
+} = {
   'crafting': 'https://cdn.discordapp.com/attachments/1062650591827984415/1090924886551183360/crafting.png',
   'fishing': 'https://cdn.discordapp.com/attachments/1062650591827984415/1090924886039466125/fishing.png',
   'cooking': 'https://cdn.discordapp.com/attachments/1062650591827984415/1090924886270160985/cooking.png',
@@ -30,4 +34,4 @@ const emojiIcons = {
   'total': ':crown:'
 }
 
-module.exports = { skillIcons, emojiIcons }
+export { skillTypes, skillIcons, emojiIcons }

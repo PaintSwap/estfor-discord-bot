@@ -1,19 +1,18 @@
-const axios = require('axios');
-const { skills } = require("../constants/skills");
-const { xpToLevel } = require("./xpToLevel");
-const { EmbedBuilder } = require('discord.js');
-const { emojiIcons, skillIcons} = require("../constants/skillIcons");
-const { avatarImageLinks } = require("../constants/avatarImageLinks");
-const dotenv = require('dotenv');
-dotenv.config();
+import axios from 'axios';
+import { skills, skillTypes } from '../constants/skills';
+import { xpToLevel } from "./xpToLevel";
+import { EmbedBuilder } from 'discord.js';
+import { emojiIcons, skillIcons} from '../constants/skillIcons';
+import { avatarImageLinks } from '../constants/avatarImageLinks';
+import ('dotenv/config');
 
-async function fetchAPI(endpoint) {
+async function fetchAPI(endpoint: string) {
   const response = await axios.get(`${process.env.ESTFOR_API_URL}/${endpoint}`, { timeout: 10 * 1000 });
   return response.data;
 }
 
 async function fetchAllTopRankers() {
-  let allRankers = [];
+  let allRankers: string[] = [];
   for (let skill of skills) {
     let bestAtThisSkill = await fetchAPI(`players?orderBy=${skill.value}XP&orderDirection=desc&numToFetch=1`);
     allRankers.push(`#1 ${bestAtThisSkill.players[0].name} - ${skill.name}`);
@@ -21,7 +20,7 @@ async function fetchAllTopRankers() {
   return allRankers;
 }
 
-async function awardEmoji(rank) {
+async function awardEmoji(rank: number) {
   if (rank === 1) return ':first_place:';
   if (rank === 2) return ':second_place:';
   if (rank === 3) return ':third_place:';
@@ -29,7 +28,7 @@ async function awardEmoji(rank) {
   return '';
 }
 
-async function getPlayerEmbed(player_name) {
+async function getPlayerEmbed(player_name: string) {
   let playerData = await fetchAPI(`players?exactName=${player_name}&orderBy=lastTimestamp&orderDirection=desc&numToFetch=1`);
   if (playerData.players.length === 0) {
     playerData = await fetchAPI(`players?name=${player_name}&orderBy=lastTimestamp&orderDirection=desc&numToFetch=1`);
@@ -43,7 +42,7 @@ async function getPlayerEmbed(player_name) {
   .setURL(`${process.env.ESTFOR_GAME_URL}/journal/${player.id}`)
   .setAuthor({ name: `Estfor Player Rank: ${player.combinedRank}`, iconURL: 'https://cdn.discordapp.com/attachments/1062650591827984415/1081201265083691028/ek_logo.png', url: `${process.env.ESTFOR_GAME_URL}/journal/${player.id}` })
   .setDescription(`TotalXP: ${player.totalXP} - Overall Lvl: ${await xpToLevel(player.totalXP)}`)
-  .setThumbnail(avatarImageLinks[player.avatarId])
+  .setThumbnail(avatarImageLinks[player.avatarId as '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8'])
   .addFields([
       {name: `${emojiIcons.melee} Melee`, value: `Lvl: ${await xpToLevel(player.meleeXP)} - Rank: ${player.meleeRank} ${await awardEmoji(player.meleeRank)}`, inline: true},
       {name: `${emojiIcons.magic} Magic`, value: `Lvl: ${await xpToLevel(player.magicXP)} - Rank: ${player.magicRank} ${await awardEmoji(player.magicRank)}`, inline: true},
@@ -60,7 +59,7 @@ async function getPlayerEmbed(player_name) {
     ])
 }
 
-async function getLeaderboardEmbed(skill) {
+async function getLeaderboardEmbed(skill: skillTypes) {
   const leaderBoardData = await fetchAPI(`players?orderBy=${skill}XP&orderDirection=desc&numToFetch=10`);
   let skillCapitalize = skill.charAt(0).toUpperCase() + skill.slice(1);
   if (skillCapitalize === 'Total') skillCapitalize = 'Overall';
@@ -105,4 +104,4 @@ async function getGlobalStatsEmbed() {
   ]);
 }
 
-module.exports = { fetchAllTopRankers, getPlayerEmbed, getLeaderboardEmbed, getGlobalStatsEmbed };
+export { fetchAllTopRankers, getPlayerEmbed, getLeaderboardEmbed, getGlobalStatsEmbed };

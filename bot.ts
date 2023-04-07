@@ -1,13 +1,14 @@
-const { Client, GatewayIntentBits, ActivityType } = require('discord.js');
+import dotenv from 'dotenv/config'
+import { Client, GatewayIntentBits, ActivityType, Interaction } from 'discord.js';
+
+import { fetchAllTopRankers, getLeaderboardEmbed, getPlayerEmbed, getGlobalStatsEmbed } from './model/fetchAPI';
+import { skillTypes, skills } from './constants/skills';
+import { createCommandsMessage } from './model/info';
+
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
-const dotenv = require('dotenv');
-const { fetchAllTopRankers, getLeaderboardEmbed, getPlayerEmbed, getGlobalStatsEmbed, getActivityEmbed } = require('./model/fetchAPI');
-const { skills } = require('./constants/skills');
-const { createCommandsMessage } = require("./model/info");
-dotenv.config();
 
 client.on('ready', () => {
-  let topRankers = [];
+  let topRankers: string[] = [];
   fetchAllTopRankers().then((data) => {
     topRankers = data;
   });
@@ -22,23 +23,23 @@ client.on('ready', () => {
   setInterval(function() {
     if (!topRankers) { return; }
     if (!topRankers[i]) { if(i > max) { i = 0; } else { i++; } return; }
-    client.user.setPresence({
+    client.user?.setPresence({
       activities: [{ name: topRankers[i], type: ActivityType.Playing }],
-      status: 'active',
+      status: 'online',
     });
     i++;
   }, 20000);
   console.log('Bot is ready');
 });
 
-client.on('interactionCreate', async interaction => {
+client.on('interactionCreate', async (interaction: Interaction) => {
   if (!interaction.isChatInputCommand()) return;
   const { commandName } = interaction;
   if (commandName === 'leaderboard') {
-    const embed = await getLeaderboardEmbed(interaction.options.get("skill")?.value);
+    const embed = await getLeaderboardEmbed(interaction.options.get("skill")?.value as skillTypes);
     await interaction.reply({ embeds: [embed] });
   } else if (commandName === 'player') {
-    const embed = await getPlayerEmbed(interaction.options.get("name")?.value);
+    const embed = await getPlayerEmbed(interaction.options.get("name")?.value as string);
     await interaction.reply({ embeds: [embed] });
   } else if (commandName === 'global-stats') {
     const embed = await getGlobalStatsEmbed();

@@ -2,8 +2,10 @@
   "name": "estford-discord-bot",
   "version": "1.0.0",
   "description": "Estfor information straight to your discord server!",
-  "main": "bot.js",
+  "main": "dist/bot.js",
   "scripts": {
+    "build": "tsc",
+    "dev": "ts-node bot.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "engines": {
@@ -17,5 +19,11 @@
     "axios": "^1.3.4",
     "discord.js": "^14.8.0",
     "dotenv": "^16.0.3"
+  },
+  "devDependencies": {
+    "@types/node": "^18.15.11",
+    "ts-node": "^10.9.1",
+    "tslint": "^6.1.3",
+    "typescript": "^5.0.3"
   }
 }
