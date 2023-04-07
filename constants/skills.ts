@@ -1,22 +1,21 @@
-type skillTypes = 'crafting' | 'fishing' | 'cooking' | 'defence' | 'firemaking' | 'health' | 'woodcutting' | 'mining' | 'smithing' | 'thieving' | 'melee' | 'magic' |  'total';
+const skillKeys = {
+  'total': 'Overall',
+  'woodcutting': 'Woodcutting',
+  'firemaking': 'Firemaking',
+  'fishing': 'Fishing',
+  'cooking': 'Cooking',
+  'mining': 'Mining',
+  'smithing': 'Smithing',
+  'crafting': 'Crafting',
+  'thieving': 'Thieving',
+  'melee': 'Melee',
+  'magic': 'Magic',
+  'defence': 'Defence',
+  'health': 'Health',
+};
 
-const skills: {
-  name: string;
-  value: skillTypes;
-}[] = [
-  { name: 'Overall', value: 'total' },
-  { name: 'Woodcutting', value: 'woodcutting' },
-  { name: 'Firemaking', value: 'firemaking' },
-  { name: 'Fishing', value: 'fishing' },
-  { name: 'Cooking', value: 'cooking' },
-  { name: 'Mining', value: 'mining' },
-  { name: 'Smithing', value: 'smithing' },
-  { name: 'Crafting', value: 'crafting' },
-  { name: 'Thieving', value: 'thieving' },
-  { name: 'Melee', value: 'melee' },
-  { name: 'Magic', value: 'magic' },
-  { name: 'Defence', value: 'defence' },
-  { name: 'Health', value: 'health' },
-];
+type skillTypes = keyof typeof skillKeys;
 
-export { skillTypes, skills };
+const skills = Object.entries(skillKeys).map(([value, name]) => ({ name, value }));
+
+export { skillKeys, skillTypes, skills };
