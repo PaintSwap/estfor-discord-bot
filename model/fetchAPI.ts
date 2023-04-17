@@ -98,7 +98,7 @@ async function getGlobalStatsEmbed() {
   .addFields([
     {name: 'Total Players', value: globalPlayerStats.globalPlayerStats.totalPlayers},
     {name: 'Total Users', value: globalUserStats.globalUserStats.totalUsers},
-    {name: 'Brush Burned', value: `${(Number(globalUserStats.globalUserStats.totalBrushBurned)/ (10 ** 18)).toLocaleString('en_US', { maximumFractionDigits: 0 })}`},
+    {name: 'Brush Burned', value: `${(Number(globalUserStats.globalUserStats.totalBrushBurned)/ (10 ** 18)).toLocaleString('en-US', { maximumFractionDigits: 0 })}`},
     {name: 'Spent in shop', value: `${(Number(globalUserStats.globalUserStats.totalBought)/ (10 ** 18)).toLocaleString('en-US', { maximumFractionDigits: 0 })}`},
     {name: 'Sold to shop', value: `${(Number(globalUserStats.globalUserStats.totalSold)/ (10 ** 18)).toLocaleString('en-US', { maximumFractionDigits: 0 })}`},
   ] as any);
