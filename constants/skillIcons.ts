@@ -19,19 +19,19 @@ const skillIcons: {
 }
 
 const emojiIcons = {
-  'crafting': ':hammer_pick:',
-  'fishing': ':fish:',
-  'cooking': ':fondue:',
-  'defence': ':shield:',
-  'firemaking': ':fire:',
-  'health' : ':heart:',
-  'magic' : ':man_mage:',
-  'melee' : ':crossed_swords:',
-  'mining' : ':pick:',
-  'smithing': ':hammer:',
-  'thieving': ':detective:',
-  'woodcutting': ':axe:',
-  'total': ':crown:'
+  'crafting': '<:EKS_crafting:1092925578807607397>',
+  'fishing': '<:EKS_fishing:1092925414583840861>',
+  'cooking': '<:EKS_cooking:1092925487023652874>',
+  'defence': '<:EKS_defense:1092925668460863648>',
+  'firemaking': '<:EKS_firemaking:1092925738803527710>',
+  'health' : '<:EKS_health:1092925797746090028>',
+  'magic' : '<:EKS_magic:1092925858144071691>',
+  'melee' : '<:EKS_melee:1092925934438457345>',
+  'mining' : '<:EKS_mining:1092925991036395570>',
+  'smithing': '<:EKS_smithing:1092926049190420501>',
+  'thieving': '<:EKS_thieving:1092926121118552095>',
+  'woodcutting': '<:EKS_woodcutting:1092926186172199014>',
+  'total': '<:EKS_crown:1100086364462133300>'
 }
 
 export { skillTypes, skillIcons, emojiIcons }
