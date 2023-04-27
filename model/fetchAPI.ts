@@ -3,7 +3,7 @@ import { skills, skillTypes } from '../constants/skills';
 import { xpToLevel } from "./xpToLevel";
 import { EmbedBuilder } from 'discord.js';
 import { emojiIcons, skillIcons} from '../constants/skillIcons';
-import { avatarImageLinks } from '../constants/avatarImageLinks';
+import { avatarImageLinks, avatarEmojiLinks } from '../constants/avatarImageLinks';
 import ('dotenv/config');
 
 async function fetchAPI(endpoint: string) {

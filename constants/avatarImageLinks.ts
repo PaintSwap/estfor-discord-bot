@@ -9,4 +9,15 @@ const avatarImageLinks = {
   '8' : 'https://cdn.discordapp.com/attachments/1062650591827984415/1091327523889086524/8.png',
 }
 
-export { avatarImageLinks }
+const avatarEmojiLinks = {
+  '1': '<:EK_kittie:1090365083042971780>',
+  '2': '<:EK_lizzy:1090365053313761350>',
+  '3': '<:EK_ace:1090365033084637317>',
+  '4': '<:EK_lionel:1090365199908880384>',
+  '5': '<:EK_ears:1090365105411194940>',
+  '6' : '<:EK_piggy:1090365129234858125>',
+  '7' : '<:EK_wolfgang:1090365157022126081>',
+  '8' : '<:EK_doggo:1090365178475991071>',
+}
+
+export { avatarImageLinks, avatarEmojiLinks }
