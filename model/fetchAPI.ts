@@ -38,7 +38,7 @@ async function getPlayerEmbed(player_name: string) {
 
   return new EmbedBuilder()
   .setColor(0x0099FF)
-  .setTitle(`${avatarEmojiLinks[player.avatarId as '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8']} ${player.name} ${await awardEmoji(player.combinedRank)}`)
+  .setTitle(`${player.name} ${await awardEmoji(player.combinedRank)}`)
   .setURL(`${process.env.ESTFOR_GAME_URL}/journal/${player.id}`)
   .setAuthor({ name: `Estfor Player Rank: ${player.combinedRank}`, iconURL: 'https://cdn.discordapp.com/attachments/1062650591827984415/1081201265083691028/ek_logo.png', url: `${process.env.ESTFOR_GAME_URL}/journal/${player.id}` })
   .setDescription(`TotalXP: ${Number(player.totalXP).toLocaleString()} - Overall Lvl: ${await xpToLevel(player.totalXP)}`)
