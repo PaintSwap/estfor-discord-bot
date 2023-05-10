@@ -75,7 +75,7 @@ async function getClanEmbed(clan_name: string) {
   try {
     let clanData = await fetchAPI(`clans?exactName=${clan_name}&numToFetch=1`);
     if (clanData.clans.length === 0) {
-      clanData = await fetchAPI(`clans?name=${clan_name}&orderBy=lastTimestamp&orderDirection=desc&numToFetch=1`);
+      clanData = await fetchAPI(`clans?name=${clan_name}&orderBy=createdTimestamp&orderDirection=desc&numToFetch=1`);
     }
     if (clanData.clans.length === 0) return new EmbedBuilder().setTitle('Player not found, try shorten the name you provide.');
     const clan = clanData.clans[0];
@@ -99,6 +99,7 @@ async function getClanEmbed(clan_name: string) {
         {name: `Created`, value: `${formatDate(Number(clan.createdTimestamp) * 1000, false, true)}`, inline: true},
       ] as any)
   } catch (e) {
+    console.log(e);
     return new EmbedBuilder().setTitle('Unable to fetch clan data');
   }
 }
@@ -142,6 +143,7 @@ async function getTop10ClansEmbed() {
     embedBuilder.addFields({name: ' ', value: message} as any);
     return embedBuilder;
   } catch (e) {
+    console.log(e);
     return new EmbedBuilder()
       .setColor(0x0099FF)
       .setTitle(`Clan Leaderboard`)
