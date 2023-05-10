@@ -40,7 +40,7 @@ async function getPlayerEmbed(player_name: string) {
   let clanText = '';
   try {
     const clanData = await fetchAPI(`clan-members/${player.id}`);
-    clanText = clanData.clanMember.clan ? ` - Clan: ${clanData.clanMember.clan.name}` : '';
+    clanText = clanData.clanMember.clan ? `Clan: ${clanData.clanMember.clan.name}` : '';
   } catch (error) {
     console.log(error);
   }
@@ -50,7 +50,10 @@ async function getPlayerEmbed(player_name: string) {
   .setTitle(`${player.name} ${await awardEmoji(player.combinedRank)}`)
   .setURL(`${process.env.ESTFOR_GAME_URL}/journal/${player.id}`)
   .setAuthor({ name: `Estfor Player Rank: ${player.combinedRank}`, iconURL: 'https://cdn.discordapp.com/attachments/1062650591827984415/1081201265083691028/ek_logo.png', url: `${process.env.ESTFOR_GAME_URL}/journal/${player.id}` })
-  .setDescription(`Total XP: ${Number(player.totalXP).toLocaleString()} - Total Lvl: ${player.totalLevel} ${clanText}`)
+  .setDescription(`
+      Total Lvl: ${player.totalLevel} - Total XP: ${Number(player.totalXP).toLocaleString()}
+      ${clanText}
+   `)
   .setThumbnail(avatarImageLinks[player.avatarId as '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8'])
   .addFields([
       {name: `${emojiIcons.melee} Melee`, value: `Lvl: ${await xpToLevel(player.meleeXP)} - Rank: ${player.meleeRank} ${await awardEmoji(player.meleeRank)}`, inline: true},
