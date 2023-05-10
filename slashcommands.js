@@ -1,7 +1,7 @@
 const { REST, Routes } = require('discord.js');
 const dotenv = require('dotenv');
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { skills } = require('./constants/skills.js');
+const { skills } = require('./dist/constants/skills.js');
 dotenv.config();
 
 const commands = [
@@ -23,8 +23,19 @@ const commands = [
       .setRequired(true)
     ),
   new SlashCommandBuilder()
+    .setName('clan')
+    .setDescription('View a clan')
+    .addStringOption(option => option
+      .setName('name')
+      .setDescription('Will retrieve the clan that best matches the name you provide.')
+      .setRequired(true)
+    ),
+  new SlashCommandBuilder()
     .setName('global-stats')
     .setDescription('View global stats'),
+  new SlashCommandBuilder()
+    .setName('top-clans')
+    .setDescription('View top clans'),
   new SlashCommandBuilder()
     .setName('list-commands')
     .setDescription('View a list of all available commands'),

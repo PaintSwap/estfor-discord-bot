@@ -18,6 +18,8 @@ const skillIcons: {
   'total': 'https://cdn.discordapp.com/attachments/1062650591827984415/1081201265083691028/ek_logo.png', // Need a total logo
 }
 
+const clanIcon = 'https://cdn.discordapp.com/attachments/935109648053321751/1102977837373325442/clan.png';
+
 const emojiIcons = {
   'crafting': '<:EKS_crafting:1092925578807607397>',
   'fishing': '<:EKS_fishing:1092925414583840861>',
@@ -34,4 +36,4 @@ const emojiIcons = {
   'total': '<:EKS_crown:1100086364462133300>'
 }
 
-export { skillTypes, skillIcons, emojiIcons }
+export { skillTypes, skillIcons, emojiIcons, clanIcon }

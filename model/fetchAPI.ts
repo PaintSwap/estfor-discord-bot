@@ -2,8 +2,9 @@ import axios from 'axios';
 import { skills, skillTypes } from '../constants/skills';
 import { xpToLevel } from "./xpToLevel";
 import { EmbedBuilder } from 'discord.js';
-import { emojiIcons, skillIcons} from '../constants/skillIcons';
-import { avatarImageLinks, avatarEmojiLinks } from '../constants/avatarImageLinks';
+import {clanIcon, emojiIcons, skillIcons} from '../constants/skillIcons';
+import { avatarImageLinks } from '../constants/avatarImageLinks';
+import { formatDate } from "../utils/formatDate";
 import ('dotenv/config');
 
 async function fetchAPI(endpoint: string) {
@@ -36,12 +37,20 @@ async function getPlayerEmbed(player_name: string) {
   if (playerData.players.length === 0) return new EmbedBuilder().setTitle('Player not found, try shorten the name you provide.');
   const player = playerData.players[0];
 
+  let clanText = '';
+  try {
+    const clanData = await fetchAPI(`clan-members/${player.id}`);
+    clanText = clanData.clanMember.clan ? ` - Clan: ${clanData.clanMember.clan.name}` : '';
+  } catch (error) {
+    console.log(error);
+  }
+
   return new EmbedBuilder()
   .setColor(0x0099FF)
   .setTitle(`${player.name} ${await awardEmoji(player.combinedRank)}`)
   .setURL(`${process.env.ESTFOR_GAME_URL}/journal/${player.id}`)
   .setAuthor({ name: `Estfor Player Rank: ${player.combinedRank}`, iconURL: 'https://cdn.discordapp.com/attachments/1062650591827984415/1081201265083691028/ek_logo.png', url: `${process.env.ESTFOR_GAME_URL}/journal/${player.id}` })
-  .setDescription(`Total XP: ${Number(player.totalXP).toLocaleString()} - Total Lvl: ${player.totalLevel}`)
+  .setDescription(`Total XP: ${Number(player.totalXP).toLocaleString()} - Total Lvl: ${player.totalLevel} ${clanText}`)
   .setThumbnail(avatarImageLinks[player.avatarId as '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8'])
   .addFields([
       {name: `${emojiIcons.melee} Melee`, value: `Lvl: ${await xpToLevel(player.meleeXP)} - Rank: ${player.meleeRank} ${await awardEmoji(player.meleeRank)}`, inline: true},
@@ -57,6 +66,91 @@ async function getPlayerEmbed(player_name: string) {
       {name: `${emojiIcons.crafting} Crafting`, value: `Lvl: ${await xpToLevel(player.craftingXP)} - Rank: ${player.craftingRank} ${await awardEmoji(player.craftingRank)}`, inline: true},
       {name: `${emojiIcons.thieving} Thieving`, value: `Lvl: ${await xpToLevel(player.thievingXP)} - Rank: ${player.thievingRank} ${await awardEmoji(player.thievingRank)}`, inline: true}
     ] as any)
+}
+
+async function getClanEmbed(clan_name: string) {
+  try {
+    let clanData = await fetchAPI(`clans?exactName=${clan_name}&numToFetch=1`);
+    if (clanData.clans.length === 0) {
+      clanData = await fetchAPI(`clans?name=${clan_name}&orderBy=lastTimestamp&orderDirection=desc&numToFetch=1`);
+    }
+    if (clanData.clans.length === 0) return new EmbedBuilder().setTitle('Player not found, try shorten the name you provide.');
+    const clan = clanData.clans[0];
+    return new EmbedBuilder()
+      .setColor(0x0099FF)
+      .setTitle(`${clan.name} ${await awardEmoji(clan.combinedRank)}`)
+      .setURL(`${process.env.ESTFOR_GAME_URL}/clan/${clan.id}`)
+      .setAuthor({
+        name: `Estfor Player Rank: ${clan.combinedRank}`,
+        iconURL: 'https://cdn.discordapp.com/attachments/1062650591827984415/1081201265083691028/ek_logo.png',
+        url: `${process.env.ESTFOR_GAME_URL}/clan/${clan.id}`
+      })
+      .setDescription(' ')
+      .setThumbnail(clanIcon)
+      .addFields([
+        {name: `Total Lvl`, value: `${clan.totalLevel}`, inline: true},
+        {name: `Owner`, value: `${clan.owner.name}`, inline: true},
+        {name: `Number of Members`, value: `${clan.memberCount}`, inline: true},
+        {name: `Rank`, value: `${clan.combinedRank} ${await awardEmoji(clan.combinedRank)}`, inline: true},
+        {name: `Bank Value`, value: `${Number(clan.bankValue).toLocaleString()}`, inline: true},
+        {name: `Created`, value: `${formatDate(Number(clan.createdTimestamp) * 1000, false, true)}`, inline: true},
+      ] as any)
+  } catch (e) {
+    return new EmbedBuilder().setTitle('Unable to fetch clan data');
+  }
+}
+
+async function getTop10ClansEmbed() {
+  try {
+    const clanData = await fetchAPI(`clans?orderDirection=desc&orderBy=totalLevel&numToFetch=10`);
+    const clans = clanData.clans;
+
+    const embedBuilder = new EmbedBuilder()
+      .setColor(0x0099FF)
+      .setTitle(`Clan Leaderboard`)
+      .setURL(`${process.env.ESTFOR_GAME_URL}/leaderboards`)
+      .setAuthor({
+        name: 'Leaderboard',
+        iconURL: 'https://cdn.discordapp.com/attachments/1062650591827984415/1081201265083691028/ek_logo.png',
+        url: process.env.ESTFOR_GAME_URL
+      })
+      .setThumbnail(clanIcon)
+
+    let i = 1;
+    let message = '';
+    for (const clan of clans) {
+      let emoji = ':medal:';
+      let nth = 'th';
+      if (i === 1) {
+        nth = 'st';
+        emoji = ':trophy:';
+      }
+      if (i === 2) {
+        nth = 'nd';
+        emoji = ':second_place:';
+      }
+      if (i === 3) {
+        nth = 'rd';
+        emoji = ':third_place:';
+      }
+      message += `**${emoji}** ${clan.name} - Level  ${clan.totalLevel} - Members: ${clan.memberCount} \n`
+      i++;
+    }
+    embedBuilder.addFields({name: ' ', value: message} as any);
+    return embedBuilder;
+  } catch (e) {
+    return new EmbedBuilder()
+      .setColor(0x0099FF)
+      .setTitle(`Clan Leaderboard`)
+      .setURL(`${process.env.ESTFOR_GAME_URL}/leaderboards`)
+      .setAuthor({
+        name: 'Leaderboard',
+        iconURL: 'https://cdn.discordapp.com/attachments/1062650591827984415/1081201265083691028/ek_logo.png',
+        url: process.env.ESTFOR_GAME_URL
+      })
+      .setThumbnail(clanIcon)
+      .addFields({name: 'Clan list would go here', value: '**:trophy:** PaintSwap - Level  100 - Members: 8'} as any);
+  }
 }
 
 async function getLeaderboardEmbed(skill: skillTypes) {
@@ -104,4 +198,4 @@ async function getGlobalStatsEmbed() {
   ] as any);
 }
 
-export { fetchAllTopRankers, getPlayerEmbed, getLeaderboardEmbed, getGlobalStatsEmbed };
+export { fetchAllTopRankers, getPlayerEmbed, getLeaderboardEmbed, getGlobalStatsEmbed, getTop10ClansEmbed, getClanEmbed };
