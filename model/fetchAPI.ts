@@ -191,13 +191,17 @@ async function getGlobalStatsEmbed() {
   .setAuthor({ name: 'Stats', iconURL: 'https://cdn.discordapp.com/attachments/1062650591827984415/1081201265083691028/ek_logo.png', url: process.env.ESTFOR_GAME_URL })
   .setThumbnail('https://cdn.discordapp.com/attachments/1062650591827984415/1081214164296548373/logo_trans_noLights_2000.png')
   .addFields([
-    {name: 'Total Players', value: globalPlayerStats.globalPlayerStats.totalPlayers},
-    {name: 'Total Users', value: globalUserStats.globalUserStats.totalUsers},
-    {name: 'Total Clans', value: globalClanStats.globalClanStats.totalClans},
-    {name: 'Total Members', value: globalClanStats.globalClanStats.totalClanMembers},
-    {name: 'Brush Burned', value: `${(Number(globalUserStats.globalUserStats.totalBrushBurned)/ (10 ** 18)).toLocaleString('en-US', { maximumFractionDigits: 0 })}`},
-    {name: 'Spent in shop', value: `${(Number(globalUserStats.globalUserStats.totalBought)/ (10 ** 18)).toLocaleString('en-US', { maximumFractionDigits: 0 })}`},
-    {name: 'Sold to shop', value: `${(Number(globalUserStats.globalUserStats.totalSold)/ (10 ** 18)).toLocaleString('en-US', { maximumFractionDigits: 0 })}`},
+    {name: 'Total', value: `
+      Players: **${globalPlayerStats.globalPlayerStats.totalPlayers}**
+      Users: **${globalUserStats.globalUserStats.totalUsers}**
+      Clans: **${globalClanStats.globalClanStats.totalClans}**
+      Clan Members: **${globalClanStats.globalClanStats.totalClanMembers}** \n\n 
+    `},
+    {name: 'Brush', value: `
+      Burned: **${(Number(globalUserStats.globalUserStats.totalBrushBurned)/ (10 ** 18)).toLocaleString('en-US', { maximumFractionDigits: 0 })}**
+      Spent in shop: **${(Number(globalUserStats.globalUserStats.totalBought)/ (10 ** 18)).toLocaleString('en-US', { maximumFractionDigits: 0 })}**
+      Sold to shop: **${(Number(globalUserStats.globalUserStats.totalSold)/ (10 ** 18)).toLocaleString('en-US', { maximumFractionDigits: 0 })}**
+    `},
   ] as any);
 }
 
