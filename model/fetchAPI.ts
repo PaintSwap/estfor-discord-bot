@@ -183,6 +183,7 @@ async function getLeaderboardEmbed(skill: skillTypes) {
 async function getGlobalStatsEmbed() {
   const globalPlayerStats = await fetchAPI(`global-player-stats`);
   const globalUserStats = await fetchAPI(`global-user-stats`);
+  const globalClanStats = await fetchAPI(`global-clan-stats`);
   return new EmbedBuilder()
   .setColor(0x0099FF)
   .setTitle('Global Stats')
@@ -192,6 +193,8 @@ async function getGlobalStatsEmbed() {
   .addFields([
     {name: 'Total Players', value: globalPlayerStats.globalPlayerStats.totalPlayers},
     {name: 'Total Users', value: globalUserStats.globalUserStats.totalUsers},
+    {name: 'Total Clans', value: globalClanStats.globalClanStats.totalClans},
+    {name: 'Total Members', value: globalClanStats.globalClanStats.totalClanMembers},
     {name: 'Brush Burned', value: `${(Number(globalUserStats.globalUserStats.totalBrushBurned)/ (10 ** 18)).toLocaleString('en-US', { maximumFractionDigits: 0 })}`},
     {name: 'Spent in shop', value: `${(Number(globalUserStats.globalUserStats.totalBought)/ (10 ** 18)).toLocaleString('en-US', { maximumFractionDigits: 0 })}`},
     {name: 'Sold to shop', value: `${(Number(globalUserStats.globalUserStats.totalSold)/ (10 ** 18)).toLocaleString('en-US', { maximumFractionDigits: 0 })}`},
