@@ -12,3 +12,6 @@
 
 ### Start the bot
 - `node dist/bot.js`
+
+### Publish/Update slash commands
+- `node slashcommands.js`

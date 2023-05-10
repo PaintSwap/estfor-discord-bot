@@ -1,7 +1,13 @@
 import dotenv from 'dotenv'
 import { Client, GatewayIntentBits, ActivityType, Interaction } from 'discord.js';
 
-import { fetchAllTopRankers, getLeaderboardEmbed, getPlayerEmbed, getGlobalStatsEmbed } from './model/fetchAPI';
+import {
+  fetchAllTopRankers,
+  getLeaderboardEmbed,
+  getPlayerEmbed,
+  getGlobalStatsEmbed,
+  getTop10ClansEmbed, getClanEmbed
+} from './model/fetchAPI';
 import { skillTypes, skills } from './constants/skills';
 import { createCommandsMessage } from './model/info';
 dotenv.config();
@@ -41,6 +47,12 @@ client.on('interactionCreate', async (interaction: Interaction) => {
     await interaction.reply({ embeds: [embed] });
   } else if (commandName === 'player') {
     const embed = await getPlayerEmbed(interaction.options.get("name")?.value as string);
+    await interaction.reply({ embeds: [embed] });
+  } else if (commandName === 'clan') {
+    const embed = await getClanEmbed(interaction.options.get("name")?.value as string);
+    await interaction.reply({ embeds: [embed] });
+  } else if (commandName === 'top-clans') {
+    const embed = await getTop10ClansEmbed();
     await interaction.reply({ embeds: [embed] });
   } else if (commandName === 'global-stats') {
     const embed = await getGlobalStatsEmbed();
