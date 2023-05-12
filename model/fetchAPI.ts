@@ -73,23 +73,32 @@ async function getPlayerEmbed(player_name: string) {
 
 async function getClanEmbed(clan_name: string) {
   try {
-    let clanData = await fetchAPI(`clans?exactName=${clan_name}&numToFetch=1`);
-    if (clanData.clans.length === 0) {
-      clanData = await fetchAPI(`clans?name=${clan_name}&orderBy=createdTimestamp&orderDirection=desc&numToFetch=1`);
+    // let clanData = await fetchAPI(`clans?exactName=${clan_name}&numToFetch=1`);
+    // if (clanData.clans.length === 0) {
+      const clanData = await fetchAPI(`clans?name=${clan_name}&orderBy=createdTimestamp&orderDirection=desc&numToFetch=1`);
+    // }
+    if (clanData.clans.length === 0) return new EmbedBuilder().setTitle('Clan not found, try shorten the clan name you provided.');
+
+    const clanMembers = await fetchAPI(`clan-members?clanId=${clanData.clans[0].id}`);
+    let names = [];
+    for (let i = 0; i < clanMembers.clanMembers.length; i++) {
+      let member = clanMembers.clanMembers[i];
+      let name = member.player.name;
+      names.push(name);
     }
-    if (clanData.clans.length === 0) return new EmbedBuilder().setTitle('Player not found, try shorten the name you provide.');
+
     const clan = clanData.clans[0];
     return new EmbedBuilder()
       .setColor(0x0099FF)
       .setTitle(`${clan.name} ${await awardEmoji(clan.combinedRank)}`)
       .setURL(`${process.env.ESTFOR_GAME_URL}/clan/${clan.id}`)
       .setAuthor({
-        name: `Estfor Player Rank: ${clan.combinedRank}`,
+        name: `Estfor Clan Rank: ${clan.combinedRank}`,
         iconURL: 'https://cdn.discordapp.com/attachments/1062650591827984415/1081201265083691028/ek_logo.png',
         url: `${process.env.ESTFOR_GAME_URL}/clan/${clan.id}`
       })
       .setDescription(' ')
-      .setThumbnail(clanIcon)
+      .setThumbnail(`https://media.estfor.com/clans/images/${clan.imageId}.png`)
       .addFields([
         {name: `Total Lvl`, value: `${clan.totalLevel}`, inline: true},
         {name: `Owner`, value: `${clan.owner.name}`, inline: true},
@@ -97,6 +106,10 @@ async function getClanEmbed(clan_name: string) {
         {name: `Rank`, value: `${clan.combinedRank} ${await awardEmoji(clan.combinedRank)}`, inline: true},
         {name: `Bank Value`, value: `${Number(clan.bankValue).toLocaleString()}`, inline: true},
         {name: `Created`, value: `${formatDate(Number(clan.createdTimestamp) * 1000, false, true)}`, inline: true},
+        {name: `Members`, value: `
+${names.join(', ')}
+`},
+
       ] as any)
   } catch (e) {
     console.log(e);
@@ -196,16 +209,14 @@ async function getGlobalStatsEmbed() {
   .setAuthor({ name: 'Stats', iconURL: 'https://cdn.discordapp.com/attachments/1062650591827984415/1081201265083691028/ek_logo.png', url: process.env.ESTFOR_GAME_URL })
   .setThumbnail('https://cdn.discordapp.com/attachments/1062650591827984415/1081214164296548373/logo_trans_noLights_2000.png')
   .addFields([
-    {name: 'Total', value: `
-      Players: **${globalPlayerStats.globalPlayerStats.totalPlayers}**
-      Users: **${globalUserStats.globalUserStats.totalUsers}**
-      Clans: **${globalClanStats.globalClanStats.totalClans}**
-      Clan Members: **${globalClanStats.globalClanStats.totalClanMembers}** \n\n 
+    {name: 'Total', value: `Players: **${globalPlayerStats.globalPlayerStats.totalPlayers}**
+Users: **${globalUserStats.globalUserStats.totalUsers}**
+Clans: **${globalClanStats.globalClanStats.totalClans}**
+Clan Members: **${globalClanStats.globalClanStats.totalClanMembers}** \n\n 
     `},
-    {name: 'Brush', value: `
-      Burned: **${(Number(globalUserStats.globalUserStats.totalBrushBurned)/ (10 ** 18)).toLocaleString('en-US', { maximumFractionDigits: 0 })}**
-      Spent in shop: **${(Number(globalUserStats.globalUserStats.totalBought)/ (10 ** 18)).toLocaleString('en-US', { maximumFractionDigits: 0 })}**
-      Sold to shop: **${(Number(globalUserStats.globalUserStats.totalSold)/ (10 ** 18)).toLocaleString('en-US', { maximumFractionDigits: 0 })}**
+    {name: 'Brush', value: `Burned: **${(Number(globalUserStats.globalUserStats.totalBrushBurned)/ (10 ** 18)).toLocaleString('en-US', { maximumFractionDigits: 0 })}**
+Spent in shop: **${(Number(globalUserStats.globalUserStats.totalBought)/ (10 ** 18)).toLocaleString('en-US', { maximumFractionDigits: 0 })}**
+Sold to shop: **${(Number(globalUserStats.globalUserStats.totalSold)/ (10 ** 18)).toLocaleString('en-US', { maximumFractionDigits: 0 })}**
     `},
   ] as any);
 }
