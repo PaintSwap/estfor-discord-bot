@@ -104,7 +104,7 @@ async function getClanEmbed(clan_name: string) {
         {name: `Owner`, value: `${clan.owner.name}`, inline: true},
         {name: `Number of Members`, value: `${clan.memberCount}`, inline: true},
         {name: `Rank`, value: `${clan.combinedRank} ${await awardEmoji(clan.combinedRank)}`, inline: true},
-        {name: `Bank Value`, value: `${Number(clan.bankValue).toLocaleString()}`, inline: true},
+        {name: `Bank Value`, value: `**${(Number(clan.bankValue)/ (10 ** 18)).toLocaleString('en-US', { maximumFractionDigits: 0 })}**`, inline: true},
         {name: `Created`, value: `${formatDate(Number(clan.createdTimestamp) * 1000, false, true)}`, inline: true},
         {name: `Members`, value: `
 ${names.join(', ')}
