@@ -73,10 +73,10 @@ async function getPlayerEmbed(player_name: string) {
 
 async function getClanEmbed(clan_name: string) {
   try {
-    // let clanData = await fetchAPI(`clans?exactName=${clan_name}&numToFetch=1`);
-    // if (clanData.clans.length === 0) {
-      const clanData = await fetchAPI(`clans?name=${clan_name}&orderBy=createdTimestamp&orderDirection=desc&numToFetch=1`);
-    // }
+    let clanData = await fetchAPI(`clans?exactName=${clan_name}&numToFetch=1`);
+    if (clanData.clans.length === 0) {
+      clanData = await fetchAPI(`clans?name=${clan_name}&orderBy=createdTimestamp&orderDirection=desc&numToFetch=1`);
+    }
     if (clanData.clans.length === 0) return new EmbedBuilder().setTitle('Clan not found, try shorten the clan name you provided.');
 
     const clanMembers = await fetchAPI(`clan-members?clanId=${clanData.clans[0].id}`);
@@ -105,7 +105,7 @@ async function getClanEmbed(clan_name: string) {
         {name: `Created`, value: `${formatDate(Number(clan.createdTimestamp) * 1000, false, true)}`, inline: true},
         {name: `Owner`, value: `${clan.owner.name}`, inline: true},
         {name: `Members`, value: `${clan.memberCount}`, inline: true},
-        {name: `Bank Value`, value: `**${(Number(clan.bankValue)/ (10 ** 18)).toLocaleString('en-US', { maximumFractionDigits: 1 })}**`, inline: true},
+        {name: `Bank Item Value`, value: `<:brush:853346803906904074> **${(Number(clan.bankValue)/ (10 ** 18)).toLocaleString('en-US', { maximumFractionDigits: 1 })}**`, inline: true},
         {name: `Members`, value: `
 ${names.join(', ')}
 `},
