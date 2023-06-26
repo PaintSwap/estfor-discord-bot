@@ -1,5 +1,5 @@
 const skillKeys = {
-  'total': 'Overall',
+  'total': 'Combined',
   'woodcutting': 'Woodcutting',
   'firemaking': 'Firemaking',
   'fishing': 'Fishing',

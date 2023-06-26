@@ -172,9 +172,10 @@ async function getTop10ClansEmbed() {
 }
 
 async function getLeaderboardEmbed(skill: skillTypes) {
-  const leaderBoardData = await fetchAPI(`players?orderBy=${skill}XP&orderDirection=desc&numToFetch=10`);
+  const orderBySkill = skill === 'total' ? 'combinedRank' : `${skill}XP`;
+  const leaderBoardData = await fetchAPI(`players?orderBy=${orderBySkill}&orderDirection=desc&numToFetch=10`);
   let skillCapitalize = skill.charAt(0).toUpperCase() + skill.slice(1);
-  if (skillCapitalize === 'Total') skillCapitalize = 'Overall';
+  if (skillCapitalize === 'Total') skillCapitalize = 'Combined';
 
   const embedBuilder = new EmbedBuilder()
   .setColor(0x0099FF)
@@ -186,12 +187,13 @@ async function getLeaderboardEmbed(skill: skillTypes) {
   let i = 1;
   let message = '';
   for (const player of leaderBoardData.players) {
+    const lvlToDisplay = skill === 'total' ? player[`${skill}Level`] : await xpToLevel(player[`${skill}XP`]);
     let emoji = ':medal:';
     let nth = 'th';
     if (i === 1) { nth = 'st'; emoji = ':trophy:'; }
     if (i === 2) { nth = 'nd'; emoji = ':second_place:'; }
     if (i === 3) { nth = 'rd'; emoji = ':third_place:'; }
-    message += `**${emoji}** Lvl ${await xpToLevel(player[`${skill}XP`])} - ${player.name} \n`
+    message += `**${emoji}** Lvl ${lvlToDisplay} - ${player.name} \n`
     i++;
   }
   embedBuilder.addFields({name: ' ', value: message} as any);
