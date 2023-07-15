@@ -57,6 +57,7 @@ async function getPlayerEmbed(player_name: string) {
   .setThumbnail(avatarImageLinks[player.avatarId as '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8'])
   .addFields([
       {name: `${emojiIcons.melee} Melee`, value: `Lvl: ${await xpToLevel(player.meleeXP)} - Rank: ${player.meleeRank} ${await awardEmoji(player.meleeRank)}`, inline: true},
+      {name: `${emojiIcons.ranged} Ranged`, value: `Lvl: ${await xpToLevel(player.rangedXP)} - Rank: ${player.rangedRank} ${await awardEmoji(player.rangedRank)}`, inline: true},
       {name: `${emojiIcons.magic} Magic`, value: `Lvl: ${await xpToLevel(player.magicXP)} - Rank: ${player.magicRank} ${await awardEmoji(player.magicRank)}`, inline: true},
       {name: `${emojiIcons.defence} Defence`, value: `Lvl: ${await xpToLevel(player.defenceXP)} - Rank: ${player.defenceRank} ${await awardEmoji(player.defenceRank)}`, inline: true},
       {name: `${emojiIcons.health} Health`, value: `Lvl: ${await xpToLevel(player.healthXP)} - Rank: ${player.healthRank} ${await awardEmoji(player.healthRank)}`, inline: true},
@@ -67,7 +68,9 @@ async function getPlayerEmbed(player_name: string) {
       {name: `${emojiIcons.mining} Mining`, value: `Lvl: ${await xpToLevel(player.miningXP)} - Rank: ${player.miningRank} ${await awardEmoji(player.miningRank)}`, inline: true},
       {name: `${emojiIcons.smithing} Smithing`, value: `Lvl: ${await xpToLevel(player.smithingXP)} - Rank: ${player.smithingRank} ${await awardEmoji(player.smithingRank)}`, inline: true},
       {name: `${emojiIcons.crafting} Crafting`, value: `Lvl: ${await xpToLevel(player.craftingXP)} - Rank: ${player.craftingRank} ${await awardEmoji(player.craftingRank)}`, inline: true},
-      {name: `${emojiIcons.thieving} Thieving`, value: `Lvl: ${await xpToLevel(player.thievingXP)} - Rank: ${player.thievingRank} ${await awardEmoji(player.thievingRank)}`, inline: true}
+      {name: `${emojiIcons.thieving} Thieving`, value: `Lvl: ${await xpToLevel(player.thievingXP)} - Rank: ${player.thievingRank} ${await awardEmoji(player.thievingRank)}`, inline: true},
+      {name: `${emojiIcons.fletching} Fletching`, value: `Lvl: ${await xpToLevel(player.fletchingXP)} - Rank: ${player.fletchingRank} ${await awardEmoji(player.fletchingRank)}`, inline: true},
+      {name: `${emojiIcons.alchemy} Alchemy`, value: `Lvl: ${await xpToLevel(player.alchemyXP)} - Rank: ${player.alchemyRank} ${await awardEmoji(player.alchemyRank)}`, inline: true}
     ] as any)
 }
 

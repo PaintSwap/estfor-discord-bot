@@ -16,6 +16,9 @@ const skillIcons: {
   'thieving': 'https://cdn.discordapp.com/attachments/1062650591827984415/1090924939139354644/thieving.png',
   'woodcutting': 'https://cdn.discordapp.com/attachments/1062650591827984415/1090924939361665044/woodcutting.png',
   'total': 'https://cdn.discordapp.com/attachments/1062650591827984415/1081201265083691028/ek_logo.png', // Need a total logo
+  'fletching': 'https://cdn.discordapp.com/attachments/1062650591827984415/1128985061170085918/fletching.png',
+  'ranged': 'https://cdn.discordapp.com/attachments/1062650591827984415/1129014533021773884/ranged.png',
+  'alchemy': 'https://cdn.discordapp.com/attachments/1062650591827984415/1128985033877757972/alchemy.png',
 }
 
 const clanIcon = 'https://cdn.discordapp.com/attachments/935109648053321751/1102977837373325442/clan.png';
@@ -33,7 +36,10 @@ const emojiIcons = {
   'smithing': '<:EKS_smithing:1092926049190420501>',
   'thieving': '<:EKS_thieving:1092926121118552095>',
   'woodcutting': '<:EKS_woodcutting:1092926186172199014>',
-  'total': '<:EKS_crown:1100086364462133300>'
+  'total': '<:EKS_crown:1100086364462133300>',
+  'fletching': '<:EKS_Fletching:1129013719133851658>',
+  'ranged': '<:EKS_Ranged:1129016059433852968>',
+  'alchemy': '<:EKS_Alchemy:1129013383581143070>',
 }
 
 export { skillTypes, skillIcons, emojiIcons, clanIcon }

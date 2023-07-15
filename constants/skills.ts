@@ -12,6 +12,9 @@ const skillKeys = {
   'magic': 'Magic',
   'defence': 'Defence',
   'health': 'Health',
+  'fletching': 'Fletching',
+  'ranged': 'Ranged',
+  'alchemy': 'Alchemy',
 };
 
 type skillTypes = keyof typeof skillKeys;
