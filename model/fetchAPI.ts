@@ -191,12 +191,13 @@ async function getLeaderboardEmbed(skill: skillTypes) {
   let message = '';
   for (const player of leaderBoardData.players) {
     const lvlToDisplay = skill === 'total' ? player[`${skill}Level`] : await xpToLevel(player[`${skill}XP`]);
+    const xpToDisplay = `${(player[`${skill}XP`] / 1000).toLocaleString('en-US', { maximumFractionDigits: 1 })}k`;
     let emoji = ':medal:';
     let nth = 'th';
     if (i === 1) { nth = 'st'; emoji = ':trophy:'; }
     if (i === 2) { nth = 'nd'; emoji = ':second_place:'; }
     if (i === 3) { nth = 'rd'; emoji = ':third_place:'; }
-    message += `**${emoji}** Lvl ${lvlToDisplay} - ${player.name} \n`
+    message += `**${emoji}** Lvl ${lvlToDisplay} - ${player.name} - XP ${xpToDisplay} \n`
     i++;
   }
   embedBuilder.addFields({name: ' ', value: message} as any);
