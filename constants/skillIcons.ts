@@ -15,6 +15,7 @@ const skillIcons: {
   'smithing': 'https://cdn.discordapp.com/attachments/1062650591827984415/1090924938879324213/smithing.png',
   'thieving': 'https://cdn.discordapp.com/attachments/1062650591827984415/1090924939139354644/thieving.png',
   'woodcutting': 'https://cdn.discordapp.com/attachments/1062650591827984415/1090924939361665044/woodcutting.png',
+  'combined': 'https://cdn.discordapp.com/attachments/1062650591827984415/1081201265083691028/ek_logo.png', // Need a total logo
   'total': 'https://cdn.discordapp.com/attachments/1062650591827984415/1081201265083691028/ek_logo.png', // Need a total logo
   'fletching': 'https://cdn.discordapp.com/attachments/1062650591827984415/1128985061170085918/fletching.png',
   'ranged': 'https://cdn.discordapp.com/attachments/1062650591827984415/1129014533021773884/ranged.png',

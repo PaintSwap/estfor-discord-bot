@@ -175,11 +175,11 @@ async function getTop10ClansEmbed() {
 }
 
 async function getLeaderboardEmbed(skill: skillTypes) {
-  const orderBySkill = skill === 'total' ? 'combinedRank' : `${skill}XP`;
+  const orderBySkill = skill === 'combined' ? 'combinedRank' : `${skill}XP`;
   const leaderBoardData = await fetchAPI(`players?orderBy=${orderBySkill}&orderDirection=desc&numToFetch=10`);
   let skillCapitalize = skill.charAt(0).toUpperCase() + skill.slice(1);
-  if (skillCapitalize === 'Total') skillCapitalize = 'Combined';
-
+  if (skillCapitalize === 'Combined') skillCapitalize = 'Combined Level';
+  if (skillCapitalize === 'Total') skillCapitalize = 'Total XP';
   const embedBuilder = new EmbedBuilder()
   .setColor(0x0099FF)
   .setTitle(`${skillCapitalize}`)
@@ -190,14 +190,19 @@ async function getLeaderboardEmbed(skill: skillTypes) {
   let i = 1;
   let message = '';
   for (const player of leaderBoardData.players) {
-    const lvlToDisplay = skill === 'total' ? player[`${skill}Level`] : await xpToLevel(player[`${skill}XP`]);
-    const xpToDisplay = `${(player[`${skill}XP`] / 1000).toLocaleString('en-US', { maximumFractionDigits: 1 })}k`;
+    const lvlToDisplay = skill === 'combined' ? player[`totalLevel`] : await xpToLevel(player[`${skill}XP`]);
+    const xp = skill === 'combined' ? player[`totalXP`] : player[`${skill}XP`];
+    const xpToDisplay = `${(xp / 1000).toLocaleString('en-US', { maximumFractionDigits: 1 })}k`;
     let emoji = ':medal:';
     let nth = 'th';
     if (i === 1) { nth = 'st'; emoji = ':trophy:'; }
     if (i === 2) { nth = 'nd'; emoji = ':second_place:'; }
     if (i === 3) { nth = 'rd'; emoji = ':third_place:'; }
-    message += `**${emoji}** Lvl ${lvlToDisplay} - ${player.name} - XP ${xpToDisplay} \n`
+    if (skill === 'total') {
+      message += `**${emoji}** ${player.name} - XP ${xpToDisplay} \n`
+    } else {
+      message += `**${emoji}** Lvl ${lvlToDisplay} - ${player.name} - XP ${xpToDisplay} \n`
+    }
     i++;
   }
   embedBuilder.addFields({name: ' ', value: message} as any);

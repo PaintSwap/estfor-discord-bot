@@ -1,5 +1,6 @@
 const skillKeys = {
-  'total': 'Combined',
+  'combined': 'Combined Level',
+  'total': 'Total XP',
   'woodcutting': 'Woodcutting',
   'firemaking': 'Firemaking',
   'fishing': 'Fishing',
