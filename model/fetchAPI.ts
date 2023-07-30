@@ -2,7 +2,7 @@ import axios from 'axios';
 import { skills, skillTypes } from '../constants/skills';
 import { xpToLevel } from "./xpToLevel";
 import { EmbedBuilder } from 'discord.js';
-import {clanIcon, emojiIcons, skillIcons} from '../constants/skillIcons';
+import { clanIcon, emojiIcons, skillIcons } from '../constants/skillIcons';
 import { avatarImageLinks } from '../constants/avatarImageLinks';
 import { formatDate } from "../utils/formatDate";
 import ('dotenv/config');
@@ -46,16 +46,17 @@ async function getPlayerEmbed(player_name: string) {
   }
 
   return new EmbedBuilder()
-  .setColor(0x0099FF)
-  .setTitle(`${player.name} ${await awardEmoji(player.combinedRank)}`)
-  .setURL(`${process.env.ESTFOR_GAME_URL}/journal/${player.id}`)
-  .setAuthor({ name: `Estfor Player Rank: ${player.combinedRank}`, iconURL: 'https://cdn.discordapp.com/attachments/1062650591827984415/1081201265083691028/ek_logo.png', url: `${process.env.ESTFOR_GAME_URL}/journal/${player.id}` })
-  .setDescription(`
+    .setColor(0x0099FF)
+    .setTitle(`${player.name} ${await awardEmoji(player.combinedRank)}`)
+    .setURL(`${process.env.ESTFOR_GAME_URL}/journal/${player.id}`)
+    .setAuthor({ name: `Estfor Player Rank: ${player.combinedRank}`, iconURL: 'https://cdn.discordapp.com/attachments/1062650591827984415/1081201265083691028/ek_logo.png', url: `${process.env.ESTFOR_GAME_URL}/journal/${player.id}` })
+    .setDescription(`
       Total Lvl: ${player.totalLevel} - Total XP: ${Number(player.totalXP).toLocaleString()}
       ${clanText}
+      Donated: <:brush:853346803906904074> ${(Number(player.totalDonated)/ (10 ** 18)).toLocaleString('en-US', { maximumFractionDigits: 1 })}
    `)
-  .setThumbnail(avatarImageLinks[player.avatarId as '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8'])
-  .addFields([
+    .setThumbnail(avatarImageLinks[player.avatarId as '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8'])
+    .addFields([
       {name: `${emojiIcons.melee} Melee`, value: `Lvl: ${await xpToLevel(player.meleeXP)} - Rank: ${player.meleeRank} ${await awardEmoji(player.meleeRank)}`, inline: true},
       {name: `${emojiIcons.ranged} Ranged`, value: `Lvl: ${await xpToLevel(player.rangedXP)} - Rank: ${player.rangedRank} ${await awardEmoji(player.rangedRank)}`, inline: true},
       {name: `${emojiIcons.magic} Magic`, value: `Lvl: ${await xpToLevel(player.magicXP)} - Rank: ${player.magicRank} ${await awardEmoji(player.magicRank)}`, inline: true},
@@ -107,8 +108,9 @@ async function getClanEmbed(clan_name: string) {
         {name: `Rank`, value: `${clan.combinedRank} ${await awardEmoji(clan.combinedRank)}`, inline: true},
         {name: `Created`, value: `${formatDate(Number(clan.createdTimestamp) * 1000, false, true)}`, inline: true},
         {name: `Owner`, value: `${clan.owner.name}`, inline: true},
-        {name: `Members`, value: `${clan.memberCount}`, inline: true},
+        {name: `Members`, value: `${clan.memberCount} / ${clan.tier.maxMemberCapacity}`, inline: true},
         {name: `Bank Item Value`, value: `<:brush:853346803906904074> **${(Number(clan.bankValue)/ (10 ** 18)).toLocaleString('en-US', { maximumFractionDigits: 1 })}**`, inline: true},
+        {name: `Donated`, value: `<:brush:853346803906904074> **${(Number(clan.totalDonated)/ (10 ** 18)).toLocaleString('en-US', { maximumFractionDigits: 1 })}**`, inline: true},
         {name: `Members`, value: `
 ${names.join(', ')}
 `},
@@ -174,6 +176,61 @@ async function getTop10ClansEmbed() {
   }
 }
 
+async function getTop10DonationsEmbed(showPlayers: boolean  ) {
+  try {
+    const donationsData = await fetchAPI(`donations?useUsers=${!showPlayers}&orderDirection=desc&orderBy=donationAmountRank&numToFetch=10`);
+    const donations = donationsData.donations;
+
+    const embedBuilder = new EmbedBuilder()
+      .setColor(0x0099FF)
+      .setTitle(`Donations Leaderboard`)
+      .setURL(`${process.env.ESTFOR_GAME_URL}/leaderboards`)
+      .setAuthor({
+        name: 'Leaderboard',
+        iconURL: 'https://cdn.discordapp.com/attachments/1062650591827984415/1081201265083691028/ek_logo.png',
+        url: process.env.ESTFOR_GAME_URL
+      })
+      .setThumbnail(clanIcon)
+
+    let i = 1;
+    let message = '';
+    for (const donation of donations) {
+      let emoji = ':medal:';
+      let nth = 'th';
+      if (i === 1) {
+        nth = 'st';
+        emoji = ':trophy:';
+      }
+      if (i === 2) {
+        nth = 'nd';
+        emoji = ':second_place:';
+      }
+      if (i === 3) {
+        nth = 'rd';
+        emoji = ':third_place:';
+      }
+      const donationAmount = (Number(donation.amount)/ (10 ** 18)).toLocaleString('en-US', { maximumFractionDigits: 0 })
+      message += `**${emoji}** ${donation.user ? donation.user : donation.player.name} - ${donationAmount} \n`
+      i++;
+    }
+    embedBuilder.addFields({name: ' ', value: message} as any);
+    return embedBuilder;
+  } catch (e) {
+    console.log(e);
+    return new EmbedBuilder()
+      .setColor(0x0099FF)
+      .setTitle(`Donation Leaderboard`)
+      .setURL(`${process.env.ESTFOR_GAME_URL}/leaderboards`)
+      .setAuthor({
+        name: 'Leaderboard',
+        iconURL: 'https://cdn.discordapp.com/attachments/1062650591827984415/1081201265083691028/ek_logo.png',
+        url: process.env.ESTFOR_GAME_URL
+      })
+      .setThumbnail(clanIcon)
+      .addFields({name: 'Donation list would go here', value: '**:trophy:** PaintSwap - 10,000'} as any);
+  }
+}
+
 async function getLeaderboardEmbed(skill: skillTypes) {
   const orderBySkill = skill === 'combined' ? 'combinedRank' : `${skill}XP`;
   const leaderBoardData = await fetchAPI(`players?orderBy=${orderBySkill}&orderDirection=desc&numToFetch=10`);
@@ -213,6 +270,7 @@ async function getGlobalStatsEmbed() {
   const globalPlayerStats = await fetchAPI(`global-player-stats`);
   const globalUserStats = await fetchAPI(`global-user-stats`);
   const globalClanStats = await fetchAPI(`global-clan-stats`);
+  const globalDonationStats = await fetchAPI(`global-donation-stats`);
   return new EmbedBuilder()
   .setColor(0x0099FF)
   .setTitle('Global Stats')
@@ -228,8 +286,9 @@ Clan Members: **${globalClanStats.globalClanStats.totalClanMembers}** \n\n
     {name: 'Brush', value: `Burned: **${(Number(globalUserStats.globalUserStats.totalBrushBurned)/ (10 ** 18)).toLocaleString('en-US', { maximumFractionDigits: 0 })}**
 Spent in shop: **${(Number(globalUserStats.globalUserStats.totalBought)/ (10 ** 18)).toLocaleString('en-US', { maximumFractionDigits: 0 })}**
 Sold to shop: **${(Number(globalUserStats.globalUserStats.totalSold)/ (10 ** 18)).toLocaleString('en-US', { maximumFractionDigits: 0 })}**
+Donated: **${(Number(globalDonationStats.globalDonationStats.totalDonatedAmount)/ (10 ** 18)).toLocaleString('en-US', { maximumFractionDigits: 0 })}**
     `},
   ] as any);
 }
 
-export { fetchAllTopRankers, getPlayerEmbed, getLeaderboardEmbed, getGlobalStatsEmbed, getTop10ClansEmbed, getClanEmbed };
+export { fetchAllTopRankers, getPlayerEmbed, getLeaderboardEmbed, getGlobalStatsEmbed, getTop10ClansEmbed, getTop10DonationsEmbed, getClanEmbed };

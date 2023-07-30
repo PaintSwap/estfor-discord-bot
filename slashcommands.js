@@ -37,6 +37,14 @@ const commands = [
     .setName('top-clans')
     .setDescription('View top clans'),
   new SlashCommandBuilder()
+    .setName('top-donations')
+    .setDescription('View top donations')
+    .addBooleanOption(option => option
+      .setName('show_by_players')
+      .setDescription('True will show players, false will show leaderboard by user wallets')
+      .setRequired(true)
+    ),
+  new SlashCommandBuilder()
     .setName('list-commands')
     .setDescription('View a list of all available commands'),
 ].map(command => command.toJSON());

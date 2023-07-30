@@ -6,7 +6,9 @@ import {
   getLeaderboardEmbed,
   getPlayerEmbed,
   getGlobalStatsEmbed,
-  getTop10ClansEmbed, getClanEmbed
+  getTop10ClansEmbed,
+  getTop10DonationsEmbed,
+  getClanEmbed,
 } from './model/fetchAPI';
 import { skillTypes, skills } from './constants/skills';
 import { createCommandsMessage } from './model/info';
@@ -53,7 +55,10 @@ client.on('interactionCreate', async (interaction: Interaction) => {
     await interaction.reply({ embeds: [embed] });
   } else if (commandName === 'top-clans') {
     const embed = await getTop10ClansEmbed();
-    await interaction.reply({ embeds: [embed] });
+    await interaction.reply({embeds: [embed]});
+  } else if (commandName === 'top-donations') {
+      const embed = await getTop10DonationsEmbed(Boolean(interaction.options.get('show_by_players')?.value));
+      await interaction.reply({ embeds: [embed] });
   } else if (commandName === 'global-stats') {
     const embed = await getGlobalStatsEmbed();
     await interaction.reply({ embeds: [embed] });
