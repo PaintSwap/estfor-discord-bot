@@ -8,6 +8,7 @@ import {
   getGlobalStatsEmbed,
   getTop10ClansEmbed,
   getTop10DonationsEmbed,
+  getTop10ClanDonationsEmbed,
   getClanEmbed,
 } from './model/fetchAPI';
 import { skillTypes, skills } from './constants/skills';
@@ -55,6 +56,9 @@ client.on('interactionCreate', async (interaction: Interaction) => {
     await interaction.reply({ embeds: [embed] });
   } else if (commandName === 'top-clans') {
     const embed = await getTop10ClansEmbed();
+    await interaction.reply({embeds: [embed]});
+  }  else if (commandName === 'top-clan-donations') {
+    const embed = await getTop10ClanDonationsEmbed();
     await interaction.reply({embeds: [embed]});
   } else if (commandName === 'top-donations') {
       const embed = await getTop10DonationsEmbed(Boolean(interaction.options.get('show_by_players')?.value));

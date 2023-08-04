@@ -37,6 +37,9 @@ const commands = [
     .setName('top-clans')
     .setDescription('View top clans'),
   new SlashCommandBuilder()
+    .setName('top-clan-donations')
+    .setDescription('View top clan donations'),
+  new SlashCommandBuilder()
     .setName('top-donations')
     .setDescription('View top donations')
     .addBooleanOption(option => option

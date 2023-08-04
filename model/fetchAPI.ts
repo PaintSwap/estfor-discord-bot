@@ -53,7 +53,7 @@ async function getPlayerEmbed(player_name: string) {
     .setDescription(`
       Total Lvl: ${player.totalLevel} - Total XP: ${Number(player.totalXP).toLocaleString()}
       ${clanText}
-      Donated: <:brush:853346803906904074> ${(Number(player.totalDonated)/ (10 ** 18)).toLocaleString('en-US', { maximumFractionDigits: 1 })}
+      Donated: <:brush_logo_circular:1137068938757423144> ${(Number(player.totalDonated)/ (10 ** 18)).toLocaleString('en-US', { maximumFractionDigits: 1 })}
    `)
     .setThumbnail(avatarImageLinks[player.avatarId as '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8'])
     .addFields([
@@ -109,8 +109,8 @@ async function getClanEmbed(clan_name: string) {
         {name: `Created`, value: `${formatDate(Number(clan.createdTimestamp) * 1000, false, true)}`, inline: true},
         {name: `Owner`, value: `${clan.owner.name}`, inline: true},
         {name: `Members`, value: `${clan.memberCount} / ${clan.tier.maxMemberCapacity}`, inline: true},
-        {name: `Bank Item Value`, value: `<:brush:853346803906904074> **${(Number(clan.bankValue)/ (10 ** 18)).toLocaleString('en-US', { maximumFractionDigits: 1 })}**`, inline: true},
-        {name: `Donated`, value: `<:brush:853346803906904074> **${(Number(clan.totalDonated)/ (10 ** 18)).toLocaleString('en-US', { maximumFractionDigits: 1 })}**`, inline: true},
+        {name: `Bank Item Value`, value: `<:brush_logo_circular:1137068938757423144> **${(Number(clan.bankValue)/ (10 ** 18)).toLocaleString('en-US', { maximumFractionDigits: 1 })}**`, inline: true},
+        {name: `Donated`, value: `<:brush_logo_circular:1137068938757423144> **${(Number(clan.totalDonated)/ (10 ** 18)).toLocaleString('en-US', { maximumFractionDigits: 1 })}**`, inline: true},
         {name: `Members`, value: `
 ${names.join(', ')}
 `},
@@ -173,6 +173,63 @@ async function getTop10ClansEmbed() {
       })
       .setThumbnail(clanIcon)
       .addFields({name: 'Clan list would go here', value: '**:trophy:** PaintSwap - Level  100 - Members: 8'} as any);
+  }
+}
+
+async function getTop10ClanDonationsEmbed() {
+  try {
+    const clanData = await fetchAPI(`clans?orderDirection=desc&orderBy=totalDonated&numToFetch=10`);
+    const clans = clanData.clans;
+
+    const embedBuilder = new EmbedBuilder()
+      .setColor(0x0099FF)
+      .setTitle(`Clan Donation Leaderboard <:brush_logo_circular:1137068938757423144>`)
+      .setURL(`${process.env.ESTFOR_GAME_URL}/leaderboards`)
+      .setAuthor({
+        name: 'Leaderboard',
+        iconURL: 'https://cdn.discordapp.com/attachments/1062650591827984415/1081201265083691028/ek_logo.png',
+        url: process.env.ESTFOR_GAME_URL
+      })
+      .setThumbnail(clanIcon)
+
+    let i = 1;
+    let message = '';
+    for (const clan of clans) {
+      let emoji = ':medal:';
+      let nth = 'th';
+      if (i === 1) {
+        nth = 'st';
+        emoji = ':trophy:';
+      }
+      if (i === 2) {
+        nth = 'nd';
+        emoji = ':second_place:';
+      }
+      if (i === 3) {
+        nth = 'rd';
+        emoji = ':third_place:';
+      }
+      if (Number(clan.totalDonated) <= 0) {
+        continue;
+      }
+      message += `**${emoji}** ${clan.name} - Donated ${(Number(clan.totalDonated)/ (10 ** 18)).toLocaleString('en-US', { maximumFractionDigits: 0 })} \n`
+      i++;
+    }
+    embedBuilder.addFields({name: ' ', value: message} as any);
+    return embedBuilder;
+  } catch (e) {
+    console.log(e);
+    return new EmbedBuilder()
+      .setColor(0x0099FF)
+      .setTitle(`Clan Donations Leaderboard`)
+      .setURL(`${process.env.ESTFOR_GAME_URL}/leaderboards`)
+      .setAuthor({
+        name: 'Leaderboard',
+        iconURL: 'https://cdn.discordapp.com/attachments/1062650591827984415/1081201265083691028/ek_logo.png',
+        url: process.env.ESTFOR_GAME_URL
+      })
+      .setThumbnail(clanIcon)
+      .addFields({name: 'Clan donation list would go here, but currently an error', value: '**:trophy:** PaintSwap - Donated  100,000'} as any);
   }
 }
 
@@ -291,4 +348,4 @@ Donated: **${(Number(globalDonationStats.globalDonationStats.totalDonatedAmount)
   ] as any);
 }
 
-export { fetchAllTopRankers, getPlayerEmbed, getLeaderboardEmbed, getGlobalStatsEmbed, getTop10ClansEmbed, getTop10DonationsEmbed, getClanEmbed };
+export { fetchAllTopRankers, getPlayerEmbed, getLeaderboardEmbed, getGlobalStatsEmbed, getTop10ClansEmbed, getTop10DonationsEmbed, getTop10ClanDonationsEmbed, getClanEmbed };
