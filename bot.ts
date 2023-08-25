@@ -18,27 +18,38 @@ dotenv.config();
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
 client.on('ready', () => {
-  let topRankers: string[] = [];
-  fetchAllTopRankers().then((data) => {
-    topRankers = data;
-  });
-  setInterval(function() {
+  if (CYCLE_THROUGH_NUMBER_1S_IN_BOT_TITLE !== 'false') {
+    let topRankers: string[] = [];
+    fetchAllTopRankers().then((data) => {
+      topRankers = data;
+    });
+    setInterval(function () {
       fetchAllTopRankers().then((data) => {
         topRankers = data;
       });
     }, 1000 * 60 * 60
-  )
-  let max = skills.length;
-  let i = 0
-  setInterval(function() {
-    if (!topRankers) { return; }
-    if (!topRankers[i]) { if(i > max) { i = 0; } else { i++; } return; }
-    client.user?.setPresence({
-      activities: [{ name: topRankers[i], type: ActivityType.Playing }],
-      status: 'online',
-    });
-    i++;
-  }, 20000);
+    )
+    let max = skills.length;
+    let i = 0
+    setInterval(function () {
+      if (!topRankers) {
+        return;
+      }
+      if (!topRankers[i]) {
+        if (i > max) {
+          i = 0;
+        } else {
+          i++;
+        }
+        return;
+      }
+      client.user?.setPresence({
+        activities: [{name: topRankers[i], type: ActivityType.Playing}],
+        status: 'online',
+      });
+      i++;
+    }, 20000);
+  }
   console.log('Bot is ready');
 });
 

@@ -16,7 +16,7 @@ async function fetchAllTopRankers() {
   let allRankers: string[] = [];
   for (let skill of skills) {
     let bestAtThisSkill = await fetchAPI(`players?orderBy=${skill.value}XP&orderDirection=desc&numToFetch=1`);
-    allRankers.push(`#1 ${bestAtThisSkill.players[0].name} - ${skill.name}`);
+    allRankers.push(`#1 ${bestAtThisSkill?.players[0]?.name} - ${skill.name}`);
   }
   return allRankers;
 }
@@ -212,7 +212,7 @@ async function getTop10ClanDonationsEmbed() {
       if (Number(clan.totalDonated) <= 0) {
         continue;
       }
-      message += `**${emoji}** ${clan.name} - Donated ${(Number(clan.totalDonated)/ (10 ** 18)).toLocaleString('en-US', { maximumFractionDigits: 0 })} \n`
+      message += `**${emoji}** ${clan.name} - ${(Number(clan.totalDonated)/ (10 ** 18)).toLocaleString('en-US', { maximumFractionDigits: 0 })} \n`
       i++;
     }
     embedBuilder.addFields({name: ' ', value: message} as any);
