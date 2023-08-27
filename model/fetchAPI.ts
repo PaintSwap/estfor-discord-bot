@@ -297,7 +297,7 @@ async function getLeaderboardEmbed(skill: skillTypes) {
   const embedBuilder = new EmbedBuilder()
   .setColor(0x0099FF)
   .setTitle(`${skillCapitalize}`)
-  .setURL(`${process.env.ESTFOR_GAME_URL}/leaderboards`)
+  .setURL(`${process.env.ESTFOR_GAME_URL}/leaderboard`)
   .setAuthor({ name: 'Leaderboard', iconURL: 'https://cdn.discordapp.com/attachments/1062650591827984415/1081201265083691028/ek_logo.png', url: process.env.ESTFOR_GAME_URL })
   .setThumbnail(skillIcons[skill])
 

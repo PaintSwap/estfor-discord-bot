@@ -18,7 +18,7 @@ dotenv.config();
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
 client.on('ready', () => {
-  if (CYCLE_THROUGH_NUMBER_1S_IN_BOT_TITLE !== 'false') {
+  if (process.env.CYCLE_THROUGH_NUMBER_1S_IN_BOT_TITLE !== 'false') {
     let topRankers: string[] = [];
     fetchAllTopRankers().then((data) => {
       topRankers = data;
