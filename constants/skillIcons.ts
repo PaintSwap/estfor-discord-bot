@@ -6,7 +6,7 @@ const skillIcons: {
   'crafting': 'https://cdn.discordapp.com/attachments/1062650591827984415/1090924886551183360/crafting.png',
   'fishing': 'https://cdn.discordapp.com/attachments/1062650591827984415/1090924886039466125/fishing.png',
   'cooking': 'https://cdn.discordapp.com/attachments/1062650591827984415/1090924886270160985/cooking.png',
-  'defence': 'https://cdn.discordapp.com/attachments/1062650591827984415/1090924886731526164/defence.png',
+  'defence': 'https://cdn.discordapp.com/attachments/968897451589263370/1158720827810906113/defence_1.png',
   'firemaking': 'https://cdn.discordapp.com/attachments/1062650591827984415/1090924886945443902/firemaking.png',
   'health' : 'https://cdn.discordapp.com/attachments/1062650591827984415/1090924938011099156/health.png',
   'magic' : 'https://cdn.discordapp.com/attachments/1062650591827984415/1130430001016217670/magic_hat.png',
