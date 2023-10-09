@@ -304,6 +304,7 @@ async function getLeaderboardEmbed(skill: skillTypes) {
   let i = 1;
   let message = '';
   for (const player of leaderBoardData.players) {
+    const playerJournalUrl = `${process.env.ESTFOR_GAME_URL}/journal/${player.id}`;
     const lvlToDisplay = skill === 'combined' ? player[`totalLevel`] : await xpToLevel(player[`${skill}XP`]);
     const xp = skill === 'combined' ? player[`totalXP`] : player[`${skill}XP`];
     const xpToDisplay = `${(xp / 1000).toLocaleString('en-US', { maximumFractionDigits: 1 })}k`;
@@ -313,9 +314,9 @@ async function getLeaderboardEmbed(skill: skillTypes) {
     if (i === 2) { nth = 'nd'; emoji = ':second_place:'; }
     if (i === 3) { nth = 'rd'; emoji = ':third_place:'; }
     if (skill === 'total') {
-      message += `**${emoji}** ${player.name} - XP ${xpToDisplay} \n`
+      message += `**${emoji}** [${player.name}](${playerJournalUrl}) - XP ${xpToDisplay} \n`
     } else {
-      message += `**${emoji}** Lvl ${lvlToDisplay} - ${player.name} - XP ${xpToDisplay} \n`
+      message += `**${emoji}** Lvl ${lvlToDisplay} - [${player.name}](${playerJournalUrl}) - XP ${xpToDisplay} \n`
     }
     i++;
   }
