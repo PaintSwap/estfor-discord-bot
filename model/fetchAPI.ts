@@ -95,16 +95,16 @@ async function getClanEmbed(clan_name: string) {
     return new EmbedBuilder()
       .setColor(0x0099FF)
       .setTitle(`${clan.name} ${await awardEmoji(clan.combinedRank)}`)
-      .setURL(`${process.env.ESTFOR_GAME_URL}/clan/${clan.id}`)
+      .setURL(`${process.env.ESTFOR_GAME_URL}/clans/${clan.id}`)
       .setAuthor({
         name: `Estfor Clan Rank: ${clan.combinedRank}`,
         iconURL: 'https://cdn.discordapp.com/attachments/1062650591827984415/1081201265083691028/ek_logo.png',
-        url: `${process.env.ESTFOR_GAME_URL}/clan/${clan.id}`
+        url: `${process.env.ESTFOR_GAME_URL}/clans/${clan.id}`
       })
       .setDescription(' ')
       .setThumbnail(`https://media.estfor.com/clans/images/${clan.imageId}.png`)
       .addFields([
-        {name: `Total Lvl`, value: `${clan.totalLevel}`, inline: true},
+        {name: `Total Lvl`, value: `${Number(clan.totalLevel).toLocaleString('en-US', { maximumFractionDigits: 0 })}`, inline: true},
         {name: `Rank`, value: `${clan.combinedRank} ${await awardEmoji(clan.combinedRank)}`, inline: true},
         {name: `Created`, value: `${formatDate(Number(clan.createdTimestamp) * 1000, false, true)}`, inline: true},
         {name: `Owner`, value: `${clan.owner.name}`, inline: true},
@@ -155,7 +155,7 @@ async function getTop10ClansEmbed() {
         nth = 'rd';
         emoji = ':third_place:';
       }
-      message += `**${emoji}** ${clan.name} - Level  ${clan.totalLevel} - Members: ${clan.memberCount} \n`
+      message += `**${emoji}** ${clan.name} - Level  ${(Number(clan.totalLevel) / 1000).toLocaleString('en-US', { maximumFractionDigits: 0 })}k - Members: ${clan.memberCount} - <:brush_logo_circular:1137068938757423144> ${(Number(clan.bankValue) / (10 ** 18)).toLocaleString('en-US', {maximumFractionDigits: 1})} \n`
       i++;
     }
     embedBuilder.addFields({name: ' ', value: message} as any);
