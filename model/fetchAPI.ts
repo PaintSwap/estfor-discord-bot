@@ -5,6 +5,7 @@ import { EmbedBuilder } from 'discord.js';
 import { clanIcon, emojiIcons, skillIcons } from '../constants/skillIcons';
 import { avatarImageLinks } from '../constants/avatarImageLinks';
 import { formatDate } from "../utils/formatDate";
+import { ClanRank } from "@paintswap/estfor-definitions/types";
 import ('dotenv/config');
 
 async function fetchAPI(endpoint: string) {
@@ -84,11 +85,32 @@ async function getClanEmbed(clan_name: string) {
     if (clanData.clans.length === 0) return new EmbedBuilder().setTitle('Clan not found, try shorten the clan name you provided.');
 
     const clanMembers = await fetchAPI(`clan-members?clanId=${clanData.clans[0].id}`);
-    let names = [];
+
+    let leaderNames = [];
+    let treasurerNames = [];
+    let scoutNames = [];
+    let commonerNames = [];
+
     for (let i = 0; i < clanMembers.clanMembers.length; i++) {
       let member = clanMembers.clanMembers[i];
       let name = member.player.name;
-      names.push(name);
+      if (member.rank === ClanRank.LEADER) leaderNames.push(name);
+      else if (member.rank === ClanRank.TREASURER) treasurerNames.push(name);
+      else if (member.rank === ClanRank.SCOUT) scoutNames.push(name);
+      else if (member.rank === ClanRank.COMMONER) commonerNames.push(name);
+    }
+    let fields = [];
+    if (leaderNames.length !== 0) {
+      fields.push({name: 'Leaders', value: `${leaderNames.join('\n')}`});
+    }
+    if (treasurerNames.length !== 0) {
+      fields.push({name: 'Treasurers', value: `${treasurerNames.join('\n')}`});
+    }
+    if (scoutNames.length !== 0) {
+      fields.push({name: 'Scouts', value: `${scoutNames.join('\n')}`});
+    }
+    if (commonerNames.length !== 0) {
+      fields.push({name: 'Commoners', value: `${commonerNames.join(', ')}`});
     }
 
     const clan = clanData.clans[0];
@@ -107,14 +129,11 @@ async function getClanEmbed(clan_name: string) {
         {name: `Total Lvl`, value: `${Number(clan.totalLevel).toLocaleString('en-US', { maximumFractionDigits: 0 })}`, inline: true},
         {name: `Rank`, value: `${clan.combinedRank} ${await awardEmoji(clan.combinedRank)}`, inline: true},
         {name: `Created`, value: `${formatDate(Number(clan.createdTimestamp) * 1000, false, true)}`, inline: true},
-        {name: `Owner`, value: `${clan.owner.name}`, inline: true},
         {name: `Members`, value: `${clan.memberCount} / ${clan.tier.maxMemberCapacity}`, inline: true},
         {name: `Bank Item Value`, value: `<:brush_logo_circular:1137068938757423144> **${(Number(clan.bankValue)/ (10 ** 18)).toLocaleString('en-US', { maximumFractionDigits: 1 })}**`, inline: true},
         {name: `Donated`, value: `<:brush_logo_circular:1137068938757423144> **${(Number(clan.totalDonated)/ (10 ** 18)).toLocaleString('en-US', { maximumFractionDigits: 1 })}**`, inline: true},
-        {name: `Members`, value: `
-${names.join(', ')}
-`},
-
+        {name: `Owner`, value: `${clan.owner.name}`},
+        ...fields
       ] as any)
   } catch (e) {
     console.log(e);
