@@ -174,7 +174,7 @@ async function getTop10ClansEmbed() {
         nth = 'rd';
         emoji = ':third_place:';
       }
-      message += `**${emoji}** ${clan.name} - Level  ${(Number(clan.totalLevel) / 1000).toLocaleString('en-US', { maximumFractionDigits: 0 })}k - Members: ${clan.memberCount} - <:brush_logo_circular:1137068938757423144> ${(Number(clan.bankValue) / (10 ** 18)).toLocaleString('en-US', {maximumFractionDigits: 1})} \n`
+      message += `**${emoji}** ${clan.name} - Lvl  ${(Number(clan.totalLevel) / 1000).toLocaleString('en-US', { maximumFractionDigits: 0 })}k - Members: ${clan.memberCount} - <:brush_logo_circular:1137068938757423144> ${(Number(clan.bankValue) / (10 ** 18)).toLocaleString('en-US', {maximumFractionDigits: 0})} \n`
       i++;
     }
     embedBuilder.addFields({name: ' ', value: message} as any);
@@ -191,7 +191,7 @@ async function getTop10ClansEmbed() {
         url: process.env.ESTFOR_GAME_URL
       })
       .setThumbnail(clanIcon)
-      .addFields({name: 'Clan list would go here', value: '**:trophy:** PaintSwap - Level  100 - Members: 8'} as any);
+      .addFields({name: 'Error creating the list', value: 'Sorry, please contact us or bare with us while we fix it.'} as any);
   }
 }
 
