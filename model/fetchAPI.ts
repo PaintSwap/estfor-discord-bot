@@ -41,7 +41,7 @@ async function getPlayerEmbed(player_name: string) {
   let clanText = '';
   try {
     const clanData = await fetchAPI(`clan-members/${player.id}`);
-    clanText = clanData.clanMember.clan ? `Clan: ${clanData.clanMember.clan.name}` : '';
+    clanText = clanData.clanMember?.clan ? `Clan: ${clanData.clanMember.clan?.name}` : '';
   } catch (error) {
     console.log(error);
   }
@@ -72,7 +72,8 @@ async function getPlayerEmbed(player_name: string) {
       {name: `${emojiIcons.crafting} Crafting`, value: `Lvl: ${await xpToLevel(player.craftingXP)} - Rank: ${player.craftingRank} ${await awardEmoji(player.craftingRank)}`, inline: true},
       {name: `${emojiIcons.thieving} Thieving`, value: `Lvl: ${await xpToLevel(player.thievingXP)} - Rank: ${player.thievingRank} ${await awardEmoji(player.thievingRank)}`, inline: true},
       {name: `${emojiIcons.fletching} Fletching`, value: `Lvl: ${await xpToLevel(player.fletchingXP)} - Rank: ${player.fletchingRank} ${await awardEmoji(player.fletchingRank)}`, inline: true},
-      {name: `${emojiIcons.alchemy} Alchemy`, value: `Lvl: ${await xpToLevel(player.alchemyXP)} - Rank: ${player.alchemyRank} ${await awardEmoji(player.alchemyRank)}`, inline: true}
+      {name: `${emojiIcons.alchemy} Alchemy`, value: `Lvl: ${await xpToLevel(player.alchemyXP)} - Rank: ${player.alchemyRank} ${await awardEmoji(player.alchemyRank)}`, inline: true},
+      {name: `${emojiIcons.forging} Forging`, value: `Lvl: ${await xpToLevel(player.forgingXP)} - Rank: ${player.forgingRank} ${await awardEmoji(player.forgingRank)}`, inline: true}
     ] as any)
 }
 
