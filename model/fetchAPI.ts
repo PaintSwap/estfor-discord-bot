@@ -51,11 +51,9 @@ async function getPlayerEmbed(player_name: string) {
     .setTitle(`${player.name} ${await awardEmoji(player.combinedRank)}`)
     .setURL(`${process.env.ESTFOR_GAME_URL}/journal/${player.id}`)
     .setAuthor({ name: `Estfor Player Rank: ${player.combinedRank}`, iconURL: 'https://cdn.discordapp.com/attachments/1062650591827984415/1081201265083691028/ek_logo.png', url: `${process.env.ESTFOR_GAME_URL}/journal/${player.id}` })
-    .setDescription(`
-      Total Lvl: ${player.totalLevel} - Total XP: ${Number(player.totalXP).toLocaleString()}
-      ${clanText}
-      Donated: <:brush_logo_circular:1137068938757423144> ${(Number(player.totalDonated)/ (10 ** 18)).toLocaleString('en-US', { maximumFractionDigits: 1 })}
-   `)
+    .setDescription(`Total Lvl: ${player.totalLevel} - Total XP: ${Number(player.totalXP).toLocaleString()}
+${clanText}
+Donated: <:brush_logo_circular:1137068938757423144> ${(Number(player.totalDonated)/ (10 ** 18)).toLocaleString('en-US', { maximumFractionDigits: 1 })}`)
     .setThumbnail(avatarImageLinks[player.avatarId as '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8'])
     .addFields([
       {name: `${emojiIcons.melee} Melee`, value: `Lvl: ${await xpToLevel(player.meleeXP)} - Rank: ${player.meleeRank} ${await awardEmoji(player.meleeRank)}`, inline: true},
