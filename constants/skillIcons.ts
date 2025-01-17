@@ -1,33 +1,32 @@
 import type { skillTypes } from "./skills";
 
-const baseImagePath = 'https://github.com/PaintSwap/estfor-discord-bot/tree/main/images/';
-const imageParams = '?raw=true';
+const baseImagePath = 'https://raw.githubusercontent.com/PaintSwap/resources/refs/heads/main/estfor_icons/';
 
 const skillIcons: {
   [key in skillTypes]: string;
 } = {
-  'crafting': `${baseImagePath}crafting.png${imageParams}`,
-  'fishing': `${baseImagePath}fishing.png${imageParams}`,
-  'cooking': `${baseImagePath}cooking.png${imageParams}`,
-  'defence': `${baseImagePath}defence.png${imageParams}`,
-  'firemaking': `${baseImagePath}firemaking.png${imageParams}`,
-  'health' : `${baseImagePath}health.png${imageParams}`,
-  'magic' : `${baseImagePath}magic_hat.png${imageParams}`,
-  'melee' : `${baseImagePath}melee.png${imageParams}`,
-  'mining' : `${baseImagePath}mining.png${imageParams}`,
-  'smithing': `${baseImagePath}smithing.png${imageParams}`,
-  'thieving': `${baseImagePath}thieving.png${imageParams}`,
-  'woodcutting': `${baseImagePath}woodcutting.png${imageParams}`,
-  'combined': `${baseImagePath}all.png${imageParams}`,
-  'total': `${baseImagePath}all.png${imageParams}`,
-  'fletching': `${baseImagePath}fletching.png${imageParams}`,
-  'ranged': `${baseImagePath}ranged.png${imageParams}`,
-  'alchemy': `${baseImagePath}alchemy.png${imageParams}`,
-  'forging': `${baseImagePath}forging.png${imageParams}`,
-  'farming': `${baseImagePath}farming.png${imageParams}`,
+  'crafting': `${baseImagePath}crafting.png`,
+  'fishing': `${baseImagePath}fishing.png`,
+  'cooking': `${baseImagePath}cooking.png`,
+  'defence': `${baseImagePath}defence.png`,
+  'firemaking': `${baseImagePath}firemaking.png`,
+  'health' : `${baseImagePath}health.png`,
+  'magic' : `${baseImagePath}magic_hat.png`,
+  'melee' : `${baseImagePath}melee.png`,
+  'mining' : `${baseImagePath}mining.png`,
+  'smithing': `${baseImagePath}smithing.png`,
+  'thieving': `${baseImagePath}thieving.png`,
+  'woodcutting': `${baseImagePath}woodcutting.png`,
+  'combined': `${baseImagePath}all.png`,
+  'total': `${baseImagePath}all.png`,
+  'fletching': `${baseImagePath}fletching.png`,
+  'ranged': `${baseImagePath}ranged.png`,
+  'alchemy': `${baseImagePath}alchemy.png`,
+  'forging': `${baseImagePath}forging.png`,
+  'farming': `${baseImagePath}farming.png`,
 }
 
-const clanIcon = `${baseImagePath}clan.png${imageParams}`;
+const clanIcon = `${baseImagePath}clan.png`;
 
 const emojiIcons = {
   'crafting': '<:EKS_crafting:1092925578807607397>',
