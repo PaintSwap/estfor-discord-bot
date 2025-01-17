@@ -21,6 +21,7 @@ const skillIcons: {
   'ranged': 'https://cdn.discordapp.com/attachments/1062650591827984415/1129014533021773884/ranged.png',
   'alchemy': 'https://cdn.discordapp.com/attachments/1062650591827984415/1128985033877757972/alchemy.png',
   'forging': 'https://estfor.com/images/game/menu/forging.png',
+  'farming': 'https://cdn.discordapp.com/attachments/1062650591827984415/1090924939361665044/woodcutting.png',
 }
 
 const clanIcon = 'https://cdn.discordapp.com/attachments/935109648053321751/1102977837373325442/clan.png';
@@ -43,6 +44,7 @@ const emojiIcons = {
   'ranged': '<:EKS_Ranged:1129016059433852968>',
   'alchemy': '<:EKS_Alchemy:1129013383581143070>',
   'forging': '<:EKS_forging:1185676034348163102>',
+  'farming': '<:EKS_farming:1329569864188432395>',
 }
 
 export { skillTypes, skillIcons, emojiIcons, clanIcon }
