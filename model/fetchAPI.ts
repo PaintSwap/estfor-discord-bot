@@ -71,7 +71,9 @@ Donated: <:brush_logo_circular:1137068938757423144> ${(Number(player.totalDonate
       {name: `${emojiIcons.thieving} Thieving`, value: `Lvl: ${await xpToLevel(player.thievingXP)} - Rank: ${player.thievingRank} ${await awardEmoji(player.thievingRank)}`, inline: true},
       {name: `${emojiIcons.fletching} Fletching`, value: `Lvl: ${await xpToLevel(player.fletchingXP)} - Rank: ${player.fletchingRank} ${await awardEmoji(player.fletchingRank)}`, inline: true},
       {name: `${emojiIcons.alchemy} Alchemy`, value: `Lvl: ${await xpToLevel(player.alchemyXP)} - Rank: ${player.alchemyRank} ${await awardEmoji(player.alchemyRank)}`, inline: true},
-      {name: `${emojiIcons.forging} Forging`, value: `Lvl: ${await xpToLevel(player.forgingXP)} - Rank: ${player.forgingRank} ${await awardEmoji(player.forgingRank)}`, inline: true}
+      {name: `${emojiIcons.forging} Forging`, value: `Lvl: ${await xpToLevel(player.forgingXP)} - Rank: ${player.forgingRank} ${await awardEmoji(player.forgingRank)}`, inline: true},
+      {name: `${emojiIcons.farming} Farming`, value: `Lvl: ${await xpToLevel(player.farmingXP)} - Rank: ${player.farmingRank} ${await awardEmoji(player.farmingRank)}`, inline: true},
+      {name: ` `, value: ` `, inline: true},
     ] as any)
 }
 
@@ -325,14 +327,18 @@ async function getLeaderboardEmbed(skill: skillTypes) {
     const playerJournalUrl = `${process.env.ESTFOR_GAME_URL}/journal/${player.id}`;
     const lvlToDisplay = skill === 'combined' ? player[`totalLevel`] : await xpToLevel(player[`${skill}XP`]);
     const xp = skill === 'combined' ? player[`totalXP`] : player[`${skill}XP`];
-    const xpToDisplay = `${(xp / 1000).toLocaleString('en-US', { maximumFractionDigits: 1 })}k`;
+
+    const xpToDisplay = xp > 1000000
+      ? `${(xp / 1000000).toLocaleString('en-US', { maximumFractionDigits: 2 })}M`
+      : `${(xp / 1000).toLocaleString('en-US', { maximumFractionDigits: 1 })}k`;
+
     let emoji = ':medal:';
     let nth = 'th';
     if (i === 1) { nth = 'st'; emoji = ':trophy:'; }
     if (i === 2) { nth = 'nd'; emoji = ':second_place:'; }
     if (i === 3) { nth = 'rd'; emoji = ':third_place:'; }
     if (skill === 'total') {
-      message += `**${emoji}** [${player.name}](${playerJournalUrl}) - XP ${xpToDisplay} \n`
+      message += `**${emoji}** [${player.name}](${playerJournalUrl}) - ${xpToDisplay} \n`
     } else {
       message += `**${emoji}** Lvl ${lvlToDisplay} - [${player.name}](${playerJournalUrl}) - XP ${xpToDisplay} \n`
     }
