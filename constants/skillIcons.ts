@@ -1,30 +1,33 @@
 import type { skillTypes } from "./skills";
 
+const baseImagePath = 'https://github.com/PaintSwap/estfor-discord-bot/tree/main/images/';
+const imageParams = '?raw=true';
+
 const skillIcons: {
   [key in skillTypes]: string;
 } = {
-  'crafting': 'https://cdn.discordapp.com/attachments/1062650591827984415/1090924886551183360/crafting.png',
-  'fishing': 'https://cdn.discordapp.com/attachments/1062650591827984415/1090924886039466125/fishing.png',
-  'cooking': 'https://cdn.discordapp.com/attachments/1062650591827984415/1090924886270160985/cooking.png',
-  'defence': 'https://cdn.discordapp.com/attachments/968897451589263370/1158720827810906113/defence_1.png',
-  'firemaking': 'https://cdn.discordapp.com/attachments/1062650591827984415/1090924886945443902/firemaking.png',
-  'health' : 'https://cdn.discordapp.com/attachments/1062650591827984415/1090924938011099156/health.png',
-  'magic' : 'https://cdn.discordapp.com/attachments/1062650591827984415/1130430001016217670/magic_hat.png',
-  'melee' : 'https://cdn.discordapp.com/attachments/1062650591827984415/1090924938380185680/melee.png',
-  'mining' : 'https://cdn.discordapp.com/attachments/1062650591827984415/1090924938631856169/mining.png',
-  'smithing': 'https://cdn.discordapp.com/attachments/1062650591827984415/1090924938879324213/smithing.png',
-  'thieving': 'https://cdn.discordapp.com/attachments/1062650591827984415/1090924939139354644/thieving.png',
-  'woodcutting': 'https://cdn.discordapp.com/attachments/1062650591827984415/1090924939361665044/woodcutting.png',
-  'combined': 'https://cdn.discordapp.com/attachments/1062650591827984415/1081201265083691028/ek_logo.png', // Need a total logo
-  'total': 'https://cdn.discordapp.com/attachments/1062650591827984415/1081201265083691028/ek_logo.png', // Need a total logo
-  'fletching': 'https://cdn.discordapp.com/attachments/1062650591827984415/1128985061170085918/fletching.png',
-  'ranged': 'https://cdn.discordapp.com/attachments/1062650591827984415/1129014533021773884/ranged.png',
-  'alchemy': 'https://cdn.discordapp.com/attachments/1062650591827984415/1128985033877757972/alchemy.png',
-  'forging': 'https://estfor.com/images/game/menu/forging.png',
-  'farming': 'https://cdn.discordapp.com/attachments/1062650591827984415/1090924939361665044/woodcutting.png',
+  'crafting': `${baseImagePath}crafting.png${imageParams}`,
+  'fishing': `${baseImagePath}fishing.png${imageParams}`,
+  'cooking': `${baseImagePath}cooking.png${imageParams}`,
+  'defence': `${baseImagePath}defence.png${imageParams}`,
+  'firemaking': `${baseImagePath}firemaking.png${imageParams}`,
+  'health' : `${baseImagePath}health.png${imageParams}`,
+  'magic' : `${baseImagePath}magic_hat.png${imageParams}`,
+  'melee' : `${baseImagePath}melee.png${imageParams}`,
+  'mining' : `${baseImagePath}mining.png${imageParams}`,
+  'smithing': `${baseImagePath}smithing.png${imageParams}`,
+  'thieving': `${baseImagePath}thieving.png${imageParams}`,
+  'woodcutting': `${baseImagePath}woodcutting.png${imageParams}`,
+  'combined': `${baseImagePath}all.png${imageParams}`,
+  'total': `${baseImagePath}all.png${imageParams}`,
+  'fletching': `${baseImagePath}fletching.png${imageParams}`,
+  'ranged': `${baseImagePath}ranged.png${imageParams}`,
+  'alchemy': `${baseImagePath}alchemy.png${imageParams}`,
+  'forging': `${baseImagePath}forging.png${imageParams}`,
+  'farming': `${baseImagePath}farming.png${imageParams}`,
 }
 
-const clanIcon = 'https://cdn.discordapp.com/attachments/935109648053321751/1102977837373325442/clan.png';
+const clanIcon = `${baseImagePath}clan.png${imageParams}`;
 
 const emojiIcons = {
   'crafting': '<:EKS_crafting:1092925578807607397>',
